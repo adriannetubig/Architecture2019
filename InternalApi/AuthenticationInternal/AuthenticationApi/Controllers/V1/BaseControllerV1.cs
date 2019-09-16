@@ -1,6 +1,6 @@
 ﻿namespace AuthenticationApi.Controllers.V1
 {
-    public class BaseControllerV1 : BaseController
+    public abstract class BaseControllerV1 : BaseController
     {
     }
 }

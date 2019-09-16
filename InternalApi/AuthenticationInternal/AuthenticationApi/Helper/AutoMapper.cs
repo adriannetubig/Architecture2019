@@ -12,6 +12,7 @@ namespace AuthenticationApi.Helper
             {
                 mc.CreateMap<EntityRole, Role>();
                 mc.CreateMap<EntityUser, User>();
+                mc.CreateMap<User, EntityUser>();
             });
 
             IMapper mapper = mappingConfig.CreateMapper();

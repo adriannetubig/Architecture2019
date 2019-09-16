@@ -15,6 +15,10 @@ BEGIN
         (RoleName)
     VALUES
         ('Admin')
+    INSERT INTO Role
+        (RoleName)
+    VALUES
+        ('User')
 END
 
 IF NOT EXISTS(SELECT 1 FROM [User])

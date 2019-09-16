@@ -59,14 +59,7 @@ namespace AuthenticationApi
 
             services.AddSingleton(Helper.AutoMapper.Config());
 
-            services.AddApiVersioning(o => {
-                o.ReportApiVersions = true;
-                o.AssumeDefaultVersionWhenUnspecified = true;
-                o.DefaultApiVersion = new ApiVersion(1, 0);
-
-                //o.Conventions.Controller<Controllers.V1.EmailsController>().HasApiVersion(new ApiVersion(1, 0));
-                //o.Conventions.Controller<Controllers.V2.EmailsController>().HasApiVersion(new ApiVersion(2, 0));
-            });
+            Helper.ApiVersioning.SetVersion(ref services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

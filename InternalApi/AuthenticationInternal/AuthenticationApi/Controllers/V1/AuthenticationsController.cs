@@ -19,7 +19,6 @@ namespace AuthenticationApi.Controllers.V1
             _iBUsers = iBUsers;
         }
 
-        // GET api/values
         [AllowAnonymous, HttpPost]
         public async Task<IActionResult> Read(User user, CancellationToken cancellationToken)
         {
@@ -37,7 +36,6 @@ namespace AuthenticationApi.Controllers.V1
                 if (requestResultAuthentication.Succeeded)
                     requestResult.Model = requestResultAuthentication.Model;
             }
-
 
             return Ok(requestResult);
         }

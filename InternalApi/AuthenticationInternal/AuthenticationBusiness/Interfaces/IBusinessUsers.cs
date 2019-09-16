@@ -14,7 +14,7 @@ namespace AuthenticationBusiness.Interfaces
         Task<RequestResult<User>> Validate(User user, CancellationToken cancellationToken);
         Task<RequestResult> ChangePassword(User user, CancellationToken cancellationToken);
         Task<RequestResult> Update(User user, CancellationToken cancellationToken);
-        Task<RequestResult> UpdatePassword(User user, int updatedBy, CancellationToken cancellationToken);
-        Task<RequestResult> Delete(int userId, int deletedBy, CancellationToken cancellationToken);
+        Task<RequestResult> UpdatePassword(User user, CancellationToken cancellationToken);
+        Task<RequestResult> Delete(int userId, CancellationToken cancellationToken);
     }
 }

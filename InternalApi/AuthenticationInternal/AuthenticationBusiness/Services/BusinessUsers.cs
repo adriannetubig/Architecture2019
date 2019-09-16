@@ -90,13 +90,15 @@ namespace AuthenticationBusiness.Services
                 var entityUsers = queryResult.Item1;
                 var users = queryResult.Item1;
 
-                var pagedEmails = new PagedList<User>
+                var pagedUsers = new PagedList<User>
                 {
                     Items = _iMapper.Map<List<User>>(entityUsers),
                     ItemsPerPage = pageFilter.ItemsPerPage,
                     NumberOfItems = queryResult.Item2,
                     PageNo = pageFilter.PageNo
                 };
+
+                requestResult.Model = pagedUsers;
             }
             catch (Exception e)
             {
@@ -195,7 +197,7 @@ namespace AuthenticationBusiness.Services
             return requestResult;
         }
 
-        public async Task<RequestResult> UpdatePassword(User user, int updatedBy, CancellationToken cancellationToken)
+        public async Task<RequestResult> UpdatePassword(User user, CancellationToken cancellationToken)
         {
             var requestResult = new RequestResult();
 
@@ -215,7 +217,7 @@ namespace AuthenticationBusiness.Services
             return requestResult;
         }
 
-        public async Task<RequestResult> Delete(int userId, int deletedBy, CancellationToken cancellationToken)
+        public async Task<RequestResult> Delete(int userId, CancellationToken cancellationToken)
         {
             var requestResult = new RequestResult();
 
