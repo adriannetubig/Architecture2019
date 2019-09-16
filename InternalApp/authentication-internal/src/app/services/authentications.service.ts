@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 
@@ -13,7 +13,8 @@ import { RequestResult } from '../models/base/request-result';
 
 export class AuthenticationsService {
 
-  constructor(private _httpClient: HttpClient) {
+  constructor(private _httpClient: HttpClient, _httpBackend: HttpBackend) {
+    this._httpClient = new HttpClient(_httpBackend);
   }
 
   login(user: User) {

@@ -11,12 +11,14 @@ import { Authentication } from '../models/base/authentication';
 @Injectable()
 export class HttpConfigInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+      if (!request.url.includes(`Authentications`)) {
+
         var authenticationString: string;
         var authentication = {} as Authentication;
 
         const value = "; " + document.cookie;
         const parts = value.split("; " + 'UserInternalAuthentication' + "=");
-        
+
         if (parts.length == 2) {
             authenticationString = parts.pop().split(";").shift();
         }
@@ -39,8 +41,6 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             map((event: HttpEvent<any>) => {
                 if (event instanceof HttpResponse) {
-                    console.log('event--->>>', event);
-                    // this.errorDialogService.openDialog(event);
                 }
                 return event;
             }),
@@ -51,8 +51,8 @@ export class HttpConfigInterceptor implements HttpInterceptor {
                     status: error.status
                 };
                 console.log(data)
-                // this.errorDialogService.openDialog(data);
                 return throwError(error);
             }));
+        }
     }
 }

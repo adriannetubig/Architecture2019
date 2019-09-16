@@ -16,7 +16,7 @@ export class UsersComponent {
   requestResult: RequestResult<PagedList<User>>;
   pageFilter: PageFilter<any>;
 
-  users$: Observable<User[]>;
+  // users$: Observable<User[]>;
 
   constructor(private _usersService: UsersService) { }
 

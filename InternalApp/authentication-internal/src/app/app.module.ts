@@ -10,18 +10,20 @@ import { HttpConfigInterceptor} from './interceptors/httpconfig.interceptor';
 
 import { AuthenticationsComponent } from './components/authentications/authentications.component';
 import { UsersComponent } from './components/users/users.component';
+import { UsersCreateComponent } from './components/users-create/users-create.component';
+import { UsersUpdateComponent } from './components/users-update/users-update.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthenticationsComponent,
-    UsersComponent
+    UsersComponent, UsersCreateComponent, UsersUpdateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     NgbModule
   ],
