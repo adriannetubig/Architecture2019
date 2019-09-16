@@ -23,7 +23,7 @@ export class UsersService {
   }
 
   Read(userId: number) {
-    return this._httpClient.get<RequestResult<UserUpdate>>(`${environment.url}/api/v1/Users/userId`);
+    return this._httpClient.get<RequestResult<UserUpdate>>(`${environment.url}/api/v1/Users/${userId}`);
   }
 
   update(user: User) {
