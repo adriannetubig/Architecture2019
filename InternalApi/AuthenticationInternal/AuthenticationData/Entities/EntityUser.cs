@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AuthenticationData.Entities
 {
     [Table("User")]
-    public class EntityUser
+    public partial class EntityUser
     {
         [Key]
         public int UserId { get; set; }

@@ -6,7 +6,6 @@ begin
   select u.UserId,
          u.RoleId,
          u.Username,
-         u.[Password],
          r.RoleName
     from [User] u
     join [Role] r

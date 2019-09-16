@@ -115,7 +115,7 @@ namespace AuthenticationBusiness.Services
             try
             {
 
-                var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username, cancellationToken, a => a.Role);
+                var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username, cancellationToken);
 
                 if (entityUser != null && BCrypt.Net.BCrypt.Verify(user.Password, entityUser.Password))
                     requestResult.Model = _iMapper.Map<User>(entityUser);
