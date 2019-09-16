@@ -1,0 +1,19 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">UserId</th>
+      <th scope="col">RoleId</th>
+      <th scope="col">Username</th>
+      <th scope="col">Role</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="requestResult">
+    <tr *ngFor="let user of requestResult.model.items">
+      <td> {{user.userId}} </td>
+      <td> {{user.roleId}} </td>
+      <td> {{user.username}} </td>
+      <td> {{user.roleName}} </td>
+    </tr>
+  </tbody>
+</table>
+<ngb-pagination [collectionSize]="requestResult.model.numberOfItems" [(page)]="requestResult.model.pageNo" [boundaryLinks]="true" (pageChange)="pageChanged($event)"></ngb-pagination>
