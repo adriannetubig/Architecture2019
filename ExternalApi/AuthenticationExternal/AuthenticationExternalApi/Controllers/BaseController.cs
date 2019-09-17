@@ -8,7 +8,7 @@ namespace AuthenticationExternalApi.Controllers
     [EnableCors("CORS")]
     [Route("api/v{v:apiVersion}/[controller]")]
     [Authorize, ApiController]
-    public class BaseController : ControllerBase
+    public abstract class BaseController : ControllerBase
     {
     }
 }

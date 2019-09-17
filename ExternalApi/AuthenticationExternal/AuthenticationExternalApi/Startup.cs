@@ -45,6 +45,15 @@ namespace AuthenticationExternalApi
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CORS", corsPolicyBuilder => corsPolicyBuilder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithOrigins(jwtTokenValidation.AllowedOrigins)
+                    .AllowCredentials());
+            });
+
             Helper.Dependency.SetDependency(ref services, authenticationInternalUrl);
 
             services.AddApiVersioning(a => {

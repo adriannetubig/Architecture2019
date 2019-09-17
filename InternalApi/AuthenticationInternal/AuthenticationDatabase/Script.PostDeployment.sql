@@ -19,17 +19,31 @@ BEGIN
         (RoleName)
     VALUES
         ('User')
+    INSERT INTO Role
+        (RoleName)
+    VALUES
+        ('ExternalApp')
 END
 
 IF NOT EXISTS(SELECT 1 FROM [User])
 BEGIN
     DECLARE @roleId INT = (SELECT TOP 1 RoleId FROM Role WHERE RoleName = 'Admin')
+    DECLARE @roleIdExternalApp INT = (SELECT TOP 1 RoleId FROM Role WHERE RoleName = 'ExternalApp')
     INSERT INTO [User]
         (Username,
         Password,
         RoleId)
     VALUES
         ('admin',
+        '$2b$10$BMH23FkUuDMDtMsLBEbb7u7AJ/eYnV5MbJ.or6hYSnRtfDAuAzTpS',
+        @roleId)
+
+    INSERT INTO [User]
+        (Username,
+        Password,
+        RoleId)
+    VALUES
+        ('authenticationexternal',
         '$2b$10$BMH23FkUuDMDtMsLBEbb7u7AJ/eYnV5MbJ.or6hYSnRtfDAuAzTpS',
         @roleId)
 END

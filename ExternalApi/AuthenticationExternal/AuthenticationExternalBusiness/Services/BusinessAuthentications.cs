@@ -1,6 +1,7 @@
 ﻿using AuthenticationExternalBusiness.Interfaces;
 using AuthenticationExternalBusiness.Models;
 using BaseConsumer;
+using BaseConsumer.Services;
 using BaseModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,9 +14,9 @@ namespace AuthenticationExternalBusiness.Services
         {
         }
 
-        public Task<RequestResult<Authentication>> Authenticate(User user, CancellationToken cancellationToken)
+        public async Task<RequestResult<Authentication>> Authenticate(User user, CancellationToken cancellationToken)
         {
-            return Post<User, RequestResult<Authentication>>(user, "/api/v1/Authentications", cancellationToken);
+            return await Post<User, RequestResult<Authentication>>(user, "/api/v1/Authentications", cancellationToken);
         }
     }
 }

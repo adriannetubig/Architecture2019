@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BaseConsumer
+namespace BaseConsumer.Services
 {
     public abstract class BaseApi
     {
@@ -44,6 +44,18 @@ namespace BaseConsumer
             httpClient.BaseAddress = new Uri(_url);
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var response = await httpClient.PostAsJsonAsync(requestUri, t, cancellationToken);
+            return await response.Content.ReadAsAsync<Result>();
+        }
+
+        protected async Task<Result> Post<T, Result>(T t, string requestUri, string jwtToken, CancellationToken cancellationToken)
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(_url);
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
 
             var response = await httpClient.PostAsJsonAsync(requestUri, t, cancellationToken);
             return await response.Content.ReadAsAsync<Result>();
