@@ -20,7 +20,7 @@ namespace AuthenticationApi.Controllers.V1
         }
 
         [AllowAnonymous, HttpPost]
-        public async Task<IActionResult> Read(User user, CancellationToken cancellationToken)
+        public async Task<IActionResult> Authenticate(User user, CancellationToken cancellationToken)
         {
             var requestResult = new RequestResult<Authentication>();
 
