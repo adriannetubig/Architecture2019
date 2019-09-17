@@ -156,7 +156,7 @@ namespace AuthenticationBusiness.Services
 
             try
             {
-                var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username && a.UserId == user.UserId, cancellationToken, a => a.Role);
+                var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username, cancellationToken, a => a.Role);
 
                 if (BCrypt.Net.BCrypt.Verify(user.Password, entityUser.Password))
                 {

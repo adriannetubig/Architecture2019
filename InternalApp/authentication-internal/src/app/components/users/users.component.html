@@ -1,3 +1,5 @@
+<a class="btn btn-primary" routerLink="/users/create" routerLinkActive="active">Create</a>
+
 <table class="table">
   <thead>
     <tr>
@@ -5,14 +7,26 @@
       <th scope="col">RoleId</th>
       <th scope="col">Username</th>
       <th scope="col">Role</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody *ngIf="requestResult">
     <tr *ngFor="let user of requestResult.model.items">
-      <td> {{user.userId}} </td>
+      <td>
+        <a class="btn btn-primary" routerLink="/users/update/{{user.userId}}" routerLinkActive="active"> {{user.userId}} </a>
+      </td>
       <td> {{user.roleId}} </td>
       <td> {{user.username}} </td>
       <td> {{user.roleName}} </td>
+      <td>
+        <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Actions</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem (click)="delete(user.userId)">Delete</button>
+              <a ngbDropdownItem routerLink="/users/update-password/{{user.userId}}" routerLinkActive="active">Update Password</a>
+            </div>
+          </div>
+      </td>
     </tr>
   </tbody>
 </table>

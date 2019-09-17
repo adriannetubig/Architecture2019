@@ -49,4 +49,12 @@ export class UsersComponent {
     this.pageFilter.pageNo = pageNumber;
     this.refresh();
   }
+
+  delete(userId: number) {
+    this._usersService.delete(userId).subscribe(result => {
+      if (result.succeeded) {
+        this.refresh();
+      }
+    });
+  }
 }
