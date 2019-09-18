@@ -29,28 +29,21 @@ namespace AuthenticationBusiness.Services
         {
             var requestResult = new RequestResult<User>();
 
-            try
+            var usernameExists = await _iRepoBase.Exists<EntityUser>(a => a.Username == user.Username, cancellationToken);
+
+            if (!usernameExists)
             {
-                var usernameExists = await _iRepoBase.Exists<EntityUser>(a => a.Username == user.Username, cancellationToken);
+                var entityUser = _iMapper.Map<EntityUser>(user);
+                entityUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
-                if (!usernameExists)
-                {
-                    var entityUser = _iMapper.Map<EntityUser>(user);
-                    entityUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                await _iRepoBase.Create(entityUser, cancellationToken);
 
-                    await _iRepoBase.Create(entityUser, cancellationToken);
-
-                    entityUser.Password = string.Empty;
-                    requestResult.Model = _iMapper.Map<User>(entityUser);
-                }
-                else
-                {
-                    requestResult.Errors.Add("Username already exists");
-                }
+                entityUser.Password = string.Empty;
+                requestResult.Model = _iMapper.Map<User>(entityUser);
             }
-            catch (Exception e)
+            else
             {
-                requestResult.Exceptions.Add(e);
+                requestResult.Errors.Add("Username already exists");
             }
 
             return requestResult;
@@ -60,15 +53,8 @@ namespace AuthenticationBusiness.Services
         {
             var requestResult = new RequestResult<User>();
 
-            try
-            {
-                var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.UserId == userId, cancellationToken);
-                requestResult.Model = _iMapper.Map<User>(entityUser);
-            }
-            catch (Exception e)
-            {
-                requestResult.Exceptions.Add(e);
-            }
+            var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.UserId == userId, cancellationToken);
+            requestResult.Model = _iMapper.Map<User>(entityUser);
 
             return requestResult;
         }
@@ -77,33 +63,26 @@ namespace AuthenticationBusiness.Services
         {
             var requestResult = new RequestResult<PagedList<User>>();
 
-            try
+            if (pageFilter.ItemsPerPage > 100)
             {
-                if (pageFilter.ItemsPerPage > 100)
-                {
-                    pageFilter.ItemsPerPage = 100;
-                    requestResult.Errors.Add("Cannot return more than 100 records at a time");
-                }
-
-                var queryResult = await _iDataUsers.Read(pageFilter.Offset, pageFilter.ItemsPerPage);
-
-                var entityUsers = queryResult.Item1;
-                var users = queryResult.Item1;
-
-                var pagedUsers = new PagedList<User>
-                {
-                    Items = _iMapper.Map<List<User>>(entityUsers),
-                    ItemsPerPage = pageFilter.ItemsPerPage,
-                    NumberOfItems = queryResult.Item2,
-                    PageNo = pageFilter.PageNo
-                };
-
-                requestResult.Model = pagedUsers;
+                pageFilter.ItemsPerPage = 100;
+                requestResult.Errors.Add("Cannot return more than 100 records at a time");
             }
-            catch (Exception e)
+
+            var queryResult = await _iDataUsers.Read(pageFilter.Offset, pageFilter.ItemsPerPage);
+
+            var entityUsers = queryResult.Item1;
+            var users = queryResult.Item1;
+
+            var pagedUsers = new PagedList<User>
             {
-                requestResult.Exceptions.Add(e);
-            }
+                Items = _iMapper.Map<List<User>>(entityUsers),
+                ItemsPerPage = pageFilter.ItemsPerPage,
+                NumberOfItems = queryResult.Item2,
+                PageNo = pageFilter.PageNo
+            };
+
+            requestResult.Model = pagedUsers;
 
             return requestResult;
         }
@@ -112,20 +91,12 @@ namespace AuthenticationBusiness.Services
         {
             var requestResult = new RequestResult<User>();
 
-            try
-            {
+            var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username, cancellationToken);
 
-                var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username, cancellationToken);
-
-                if (entityUser != null && BCrypt.Net.BCrypt.Verify(user.Password, entityUser.Password))
-                    requestResult.Model = _iMapper.Map<User>(entityUser);
-                else
-                    requestResult.Errors.Add("Incorrect Username or Password");
-            }
-            catch (Exception e)
-            {
-                requestResult.Exceptions.Add(e);
-            }
+            if (entityUser != null && BCrypt.Net.BCrypt.Verify(user.Password, entityUser.Password))
+                requestResult.Model = _iMapper.Map<User>(entityUser);
+            else
+                requestResult.Errors.Add("Incorrect Username or Password");
 
             return requestResult;
         }
@@ -134,18 +105,10 @@ namespace AuthenticationBusiness.Services
         {
             var requestResult = new RequestResult<User>();
 
-            try
-            {
-                var isValid = await _iRepoBase.Exists<EntityUser>(a => a.Username == user.Username && a.UserId == user.UserId, cancellationToken);
+            var isValid = await _iRepoBase.Exists<EntityUser>(a => a.Username == user.Username && a.UserId == user.UserId, cancellationToken);
 
-                if (!isValid)
-                    requestResult.Errors.Add("Invalid Credential");
-
-            }
-            catch (Exception e)
-            {
-                requestResult.Exceptions.Add(e);
-            }
+            if (!isValid)
+                requestResult.Errors.Add("Invalid Credential");
 
             return requestResult;
         }
@@ -153,25 +116,17 @@ namespace AuthenticationBusiness.Services
         public async Task<RequestResult> ChangePassword(User user, CancellationToken cancellationToken)
         {
             var requestResult = new RequestResult();
+            var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username, cancellationToken, a => a.Role);
 
-            try
+            if (BCrypt.Net.BCrypt.Verify(user.Password, entityUser.Password))
             {
-                var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username, cancellationToken, a => a.Role);
+                entityUser.Password = BCrypt.Net.BCrypt.HashPassword(user.NewPassword);
 
-                if (BCrypt.Net.BCrypt.Verify(user.Password, entityUser.Password))
-                {
-                    entityUser.Password = BCrypt.Net.BCrypt.HashPassword(user.NewPassword);
-
-                    await _iRepoBase.Update(entityUser, cancellationToken);
-                }
-                else
-                {
-                    requestResult.Errors.Add("Incorrect Username or Password");
-                }
+                await _iRepoBase.Update(entityUser, cancellationToken);
             }
-            catch (Exception e)
+            else
             {
-                requestResult.Exceptions.Add(e);
+                requestResult.Errors.Add("Incorrect Username or Password");
             }
 
             return requestResult;
@@ -180,20 +135,11 @@ namespace AuthenticationBusiness.Services
         public async Task<RequestResult> Update(User user, CancellationToken cancellationToken)
         {
             var requestResult = new RequestResult();
+            var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.UserId == user.UserId, cancellationToken);
 
-            try
-            {
-                var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.UserId == user.UserId, cancellationToken);
+            entityUser.RoleId = user.RoleId;
 
-                entityUser.RoleId = user.RoleId;
-
-                await _iRepoBase.Update(entityUser, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                requestResult.Exceptions.Add(e);
-            }
-
+            await _iRepoBase.Update(entityUser, cancellationToken);
             return requestResult;
         }
 
@@ -201,18 +147,11 @@ namespace AuthenticationBusiness.Services
         {
             var requestResult = new RequestResult();
 
-            try
-            {
-                var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.UserId == user.UserId, cancellationToken);
+            var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.UserId == user.UserId, cancellationToken);
 
-                entityUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            entityUser.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
-                await _iRepoBase.Update(entityUser, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                requestResult.Exceptions.Add(e);
-            }
+            await _iRepoBase.Update(entityUser, cancellationToken);
 
             return requestResult;
         }
@@ -221,14 +160,7 @@ namespace AuthenticationBusiness.Services
         {
             var requestResult = new RequestResult();
 
-            try
-            {
-                await _iRepoBase.Delete<EntityUser>(a => a.UserId == userId, cancellationToken);
-            }
-            catch (Exception e)
-            {
-                requestResult.Exceptions.Add(e);
-            }
+            await _iRepoBase.Delete<EntityUser>(a => a.UserId == userId, cancellationToken);
 
             return requestResult;
         }

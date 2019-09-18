@@ -23,41 +23,34 @@ namespace AuthenticationBusiness.Services
         public RequestResult<Authentication> Create(string refreshToken, User user)
         {
             var requestResult = new RequestResult<Authentication>();
-            try
-            {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtTokenValidation.IssuerSigningKey));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtTokenValidation.IssuerSigningKey));
+            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-                var claims = new List<Claim>
+            var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                     //new Claim(ClaimTypes.Role, user.Role) No available role yet
                 };
 
-                var authentication = new Authentication
-                {
-                    Expiration = _jwtTokenSettings.Expiration,
-                    InvalidBefore = DateTime.UtcNow,
-                    RefreshToken = refreshToken
-                };
-
-                var tokenOptions = new JwtSecurityToken(
-                    issuer: _jwtTokenValidation.ValidIssuer,
-                    audience: _jwtTokenValidation.ValidAudience,
-                    claims: claims,
-                    notBefore: authentication.InvalidBefore,
-                    expires: authentication.Expiration,
-                    signingCredentials: signinCredentials
-                );
-                authentication.Token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-
-                requestResult.Model = authentication;
-            }
-            catch (Exception e)
+            var authentication = new Authentication
             {
-                requestResult.Exceptions.Add(e);
-            }
+                Expiration = _jwtTokenSettings.Expiration,
+                InvalidBefore = DateTime.UtcNow,
+                RefreshToken = refreshToken
+            };
+
+            var tokenOptions = new JwtSecurityToken(
+                issuer: _jwtTokenValidation.ValidIssuer,
+                audience: _jwtTokenValidation.ValidAudience,
+                claims: claims,
+                notBefore: authentication.InvalidBefore,
+                expires: authentication.Expiration,
+                signingCredentials: signinCredentials
+            );
+            authentication.Token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+            requestResult.Model = authentication;
 
             return requestResult;
         }

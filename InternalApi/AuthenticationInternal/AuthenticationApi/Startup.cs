@@ -69,7 +69,7 @@ namespace AuthenticationApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseExceptionHandler();
             app.UseAuthentication();
 
             app.UseCors("CORS");

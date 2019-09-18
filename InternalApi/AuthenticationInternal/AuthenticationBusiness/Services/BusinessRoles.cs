@@ -26,16 +26,9 @@ namespace AuthenticationBusiness.Services
         {
             var requestResult = new RequestResult<List<Role>>();
 
-            try
-            {
-                var entityRoles = await _iRepoBase.ReadMultiple<EntityRole>(a => true, cancellationToken);
+            var entityRoles = await _iRepoBase.ReadMultiple<EntityRole>(a => true, cancellationToken);
 
-                requestResult.Model = _iMapper.Map<List<Role>>(entityRoles);
-            }
-            catch (Exception e)
-            {
-                requestResult.Exceptions.Add(e);
-            }
+            requestResult.Model = _iMapper.Map<List<Role>>(entityRoles);
 
             return requestResult;
         }
