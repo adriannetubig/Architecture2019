@@ -391,6 +391,132 @@
 					"_postman_isSubFolder": true
 				}
 			]
+		},
+		{
+			"name": "External",
+			"item": [
+				{
+					"name": "Authentication",
+					"item": [
+						{
+							"name": "V1",
+							"item": [
+								{
+									"name": "Authentication",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"postman.setEnvironmentVariable(\"Authorization\", jsonData.model.token)",
+													"postman.setEnvironmentVariable(\"RefreshToken\", jsonData.model.refreshToken)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"username\":\"{{Username}}\",\r\n   \"password\": \"{{Password}}\"\r\n} "
+										},
+										"url": {
+											"raw": "{{UrlExternal}}/api/v1/Authentications",
+											"host": [
+												"{{UrlExternal}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"Authentications"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "V1",
+							"item": [
+								{
+									"name": "ChangePassword",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer  {{Authorization}}"
+											},
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"userId\": 1,\n\t\"username\": \"user\",\n\t\"password\": \"password\",\n\t\"newPassword\": \"pestword\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{UrlExternal}}/api/v1/Users/ChangePassword",
+											"host": [
+												"{{UrlExternal}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"Users",
+												"ChangePassword"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
 		}
 	]
 }
