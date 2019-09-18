@@ -1,6 +1,5 @@
 ﻿using AuthenticationExternalBusiness.Interfaces;
 using AuthenticationExternalBusiness.Models;
-using BaseConsumer;
 using BaseConsumer.Services;
 using BaseModel;
 using System.Threading;

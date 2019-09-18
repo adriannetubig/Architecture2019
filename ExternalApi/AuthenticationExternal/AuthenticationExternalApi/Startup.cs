@@ -23,8 +23,8 @@ namespace AuthenticationExternalApi
         public void ConfigureServices(IServiceCollection services)
         {
             var authenticationInternalUrl = Configuration.GetSection("AuthenticationInternalUrl").Get<string>();
-
             var jwtTokenValidation = Configuration.GetSection("JwtTokenValidation").Get<JwtTokenValidation>();
+            var internalApiCredential = Configuration.GetSection("InternalApiCredential").Get<InternalApiCredential>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -54,7 +54,7 @@ namespace AuthenticationExternalApi
                     .AllowCredentials());
             });
 
-            Helper.Dependency.SetDependency(ref services, authenticationInternalUrl);
+            Helper.Dependency.SetDependency(ref services, internalApiCredential, authenticationInternalUrl);
 
             services.AddApiVersioning(a => {
                 a.ReportApiVersions = true;

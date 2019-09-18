@@ -18,8 +18,8 @@ namespace AuthenticationExternalBusiness.Services
 
         public async Task<RequestResult> ChangePassword(User user, CancellationToken cancellationToken)
         {
-            var token = _iBusinessApiAuthentication.ReadToken(cancellationToken);
-            return await Post<User, RequestResult>(user, "/api/v1/Users/ChangePassword", cancellationToken);
+            var token = await _iBusinessApiAuthentication.ReadToken(cancellationToken);
+            return await Post<User, RequestResult>(user, "/api/v1/Users/ChangePassword", token, cancellationToken);
         }
     }
 }
