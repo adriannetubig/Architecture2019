@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using AuthenticationApi.Helper;
 using BaseModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +25,7 @@ namespace AuthenticationApi
         {
             var jwtTokenSettings = Configuration.GetSection("JwtTokenSettings").Get<JwtTokenSettings>();
             var jwtTokenValidation = Configuration.GetSection("JwtTokenValidation").Get<JwtTokenValidation>();
+            var allowedOrigins = Configuration.GetSection("AllowedOrigins").Get<string[]>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -49,7 +51,7 @@ namespace AuthenticationApi
                 options.AddPolicy("CORS", corsPolicyBuilder => corsPolicyBuilder
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithOrigins(jwtTokenValidation.AllowedOrigins)
+                    .WithOrigins(allowedOrigins)
                     .AllowCredentials());
             });
 
@@ -69,7 +71,7 @@ namespace AuthenticationApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseExceptionHandler();
+            app.UseExceptionMiddleware();
             app.UseAuthentication();
 
             app.UseCors("CORS");

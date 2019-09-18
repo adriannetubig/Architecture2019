@@ -20,7 +20,7 @@ namespace AuthenticationBusiness.Services
             _jwtTokenSettings = jwtTokenSettings;
         }
 
-        public RequestResult<Authentication> Create(string refreshToken, User user)
+        public RequestResult<Authentication> Create(string refreshToken, User user)//Todo: Possible NuGet Package
         {
             var requestResult = new RequestResult<Authentication>();
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtTokenValidation.IssuerSigningKey));

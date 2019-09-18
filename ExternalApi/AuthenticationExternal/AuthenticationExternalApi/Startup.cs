@@ -23,8 +23,10 @@ namespace AuthenticationExternalApi
         public void ConfigureServices(IServiceCollection services)
         {
             var authenticationInternalUrl = Configuration.GetSection("AuthenticationInternalUrl").Get<string>();
+            var jwtTokenSettings = Configuration.GetSection("JwtTokenSettings").Get<JwtTokenSettings>();
             var jwtTokenValidation = Configuration.GetSection("JwtTokenValidation").Get<JwtTokenValidation>();
             var internalApiCredential = Configuration.GetSection("InternalApiCredential").Get<InternalApiCredential>();
+            var allowedOrigins = Configuration.GetSection("AllowedOrigins").Get<string[]>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -50,11 +52,11 @@ namespace AuthenticationExternalApi
                 options.AddPolicy("CORS", corsPolicyBuilder => corsPolicyBuilder
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithOrigins(jwtTokenValidation.AllowedOrigins)
+                    .WithOrigins(allowedOrigins)
                     .AllowCredentials());
             });
 
-            Helper.Dependency.SetDependency(ref services, internalApiCredential, authenticationInternalUrl);
+            Helper.Dependency.SetDependency(ref services, internalApiCredential, authenticationInternalUrl, jwtTokenSettings, jwtTokenValidation);
 
             services.AddApiVersioning(a => {
                 a.ReportApiVersions = true;

@@ -9,6 +9,5 @@ namespace BaseModel
         public string ValidIssuer { get; set; }
         public string ValidAudience { get; set; }
         public TimeSpan ClockSkew => TimeSpan.FromMinutes(ClockSkewMinutes);
-        public string[] AllowedOrigins { get; set; }
     }
 }

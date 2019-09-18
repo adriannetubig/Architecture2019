@@ -1,22 +1,59 @@
 ﻿using AuthenticationExternalBusiness.Interfaces;
 using AuthenticationExternalBusiness.Models;
-using BaseConsumer;
 using BaseConsumer.Services;
 using BaseModel;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace AuthenticationExternalBusiness.Services
 {
-    public class BusinessAuthentications : BaseApi, IBusinessAuthentications
+    public class BusinessAuthentications : IBusinessAuthentications
     {
-        public BusinessAuthentications(string url): base(url)
+        private readonly JwtTokenValidation _jwtTokenValidation;
+        private readonly JwtTokenSettings _jwtTokenSettings;
+        public BusinessAuthentications(JwtTokenSettings jwtTokenSettings, JwtTokenValidation jwtTokenValidation)
         {
+            _jwtTokenValidation = jwtTokenValidation;
+            _jwtTokenSettings = jwtTokenSettings;
         }
 
-        public async Task<RequestResult<Authentication>> Authenticate(User user, CancellationToken cancellationToken)
+        public RequestResult<Authentication> Create(string refreshToken, User user)//Todo: Possible NuGet Package
         {
-            return await Post<User, RequestResult<Authentication>>(user, "/api/v1/Authentications", cancellationToken);
+            var requestResult = new RequestResult<Authentication>();
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtTokenValidation.IssuerSigningKey));
+            var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                    //new Claim(ClaimTypes.Role, user.Role) No available role yet
+                };
+
+            var authentication = new Authentication
+            {
+                Expiration = _jwtTokenSettings.Expiration,
+                InvalidBefore = DateTime.UtcNow,
+                RefreshToken = refreshToken
+            };
+
+            var tokenOptions = new JwtSecurityToken(
+                issuer: _jwtTokenValidation.ValidIssuer,
+                audience: _jwtTokenValidation.ValidAudience,
+                claims: claims,
+                notBefore: authentication.InvalidBefore,
+                expires: authentication.Expiration,
+                signingCredentials: signinCredentials
+            );
+            authentication.Token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+            requestResult.Model = authentication;
+
+            return requestResult;
         }
     }
 }

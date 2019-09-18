@@ -57,6 +57,14 @@ namespace AuthenticationApi.Controllers.V1
             return Ok(requestResult);
         }
 
+        [HttpPost("Authenticate")]
+        public async Task<IActionResult> Authenticate(User user, CancellationToken cancellationToken)
+        {
+            var requestResult = await _iBusinessUsers.Authenticate(user, cancellationToken);
+
+            return Ok(requestResult);
+        }
+
         [HttpPost("Search")]
         public async Task<IActionResult> Read(PageFilter pageFilter, CancellationToken cancellationToken)
         {

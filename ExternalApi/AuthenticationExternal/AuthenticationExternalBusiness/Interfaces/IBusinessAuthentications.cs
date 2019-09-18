@@ -7,6 +7,6 @@ namespace AuthenticationExternalBusiness.Interfaces
 {
     public interface IBusinessAuthentications
     {
-        Task<RequestResult<Authentication>> Authenticate(User user, CancellationToken cancellationToken);
+        RequestResult<Authentication> Create(string refreshToken, User user);
     }
 }
