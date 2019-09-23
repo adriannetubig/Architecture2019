@@ -54,5 +54,44 @@ namespace AuthenticationBusiness.Services
 
             return requestResult;
         }
+
+        public RequestResult<User> VerifyToken(Authentication authentication)
+        {
+            var requestResult = new RequestResult<User>();
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = false,
+                ValidateIssuerSigningKey = true,
+
+                ValidIssuer = _jwtTokenValidation.ValidIssuer,
+                ValidAudience = _jwtTokenValidation.ValidAudience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtTokenValidation.IssuerSigningKey)),
+                ClockSkew = TimeSpan.FromMinutes(Convert.ToDouble(_jwtTokenValidation.ClockSkewMinutes))
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(authentication.Token, tokenValidationParameters, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            {
+                requestResult.Errors.Add("Invalid Token");
+            }
+            else
+            {
+                var user = new User()
+                {
+                    UserId = Convert.ToInt32(principal.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                    Username = principal.Identity.Name
+                };
+                requestResult.Model = user;
+            }
+
+            return requestResult;
+        }
     }
 }

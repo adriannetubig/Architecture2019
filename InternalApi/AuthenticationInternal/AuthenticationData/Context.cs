@@ -11,6 +11,7 @@ namespace AuthenticationData
         }
         //Do not add custom entities
         public DbSet<EntityRole> Roles { get; set; }
+        public DbSet<EntityRefreshToken> RefreshTokens { get; set; }
         public DbSet<EntityUser> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

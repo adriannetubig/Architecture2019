@@ -10,6 +10,7 @@ namespace AuthenticationApi.Helper
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {
+                mc.CreateMap<EntityRefreshToken, RefreshToken>();
                 mc.CreateMap<EntityRole, Role>();
                 mc.CreateMap<EntityUser, User>();
                 mc.CreateMap<User, EntityUser>();

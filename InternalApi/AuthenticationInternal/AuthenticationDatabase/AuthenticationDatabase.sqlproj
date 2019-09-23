@@ -63,6 +63,7 @@
     <Build Include="Tables\User.sql" />
     <Build Include="Tables\Role.sql" />
     <Build Include="StoredProcedure\GetUsersPaged.sql" />
+    <Build Include="Tables\RefreshToken.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment.sql" />
