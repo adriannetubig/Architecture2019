@@ -64,6 +64,7 @@
     <Build Include="Tables\Role.sql" />
     <Build Include="StoredProcedure\GetUsersPaged.sql" />
     <Build Include="Tables\RefreshToken.sql" />
+    <Build Include="Tables\Fibonacci.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment.sql" />

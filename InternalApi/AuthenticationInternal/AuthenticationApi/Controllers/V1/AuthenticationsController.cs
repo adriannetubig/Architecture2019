@@ -34,7 +34,7 @@ namespace AuthenticationApi.Controllers.V1
                 var requestRefreshToken = await _iBusinessRefreshTokens.Create(requestResultUser.Model.UserId, cancellationToken);
                 requestResult.Add(requestRefreshToken);
 
-                var requestResultAuthentication = _iBusinessAuthentications.Create(requestRefreshToken.Model.Token, requestResultUser.Model); //ToDo: Implement Refresh Token
+                var requestResultAuthentication = _iBusinessAuthentications.Create(requestRefreshToken.Model.Token, requestResultUser.Model);
                 requestResult.Add(requestResultAuthentication);
 
                 if (requestResultAuthentication.Succeeded)
