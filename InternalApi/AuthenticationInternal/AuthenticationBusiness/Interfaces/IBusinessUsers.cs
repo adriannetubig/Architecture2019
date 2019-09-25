@@ -11,7 +11,7 @@ namespace AuthenticationBusiness.Interfaces
         Task<RequestResult<User>> Read(int userId, CancellationToken cancellationToken);
         Task<RequestResult<PagedList<User>>> Read(PageFilter pageFilter, CancellationToken cancellationToken);
         Task<RequestResult<User>> Authenticate(User user, CancellationToken cancellationToken);
-        Task<RequestResult<User>> Validate(User user, CancellationToken cancellationToken);
+        Task<RequestResult> Validate(User user, CancellationToken cancellationToken);
         Task<RequestResult> ChangePassword(User user, CancellationToken cancellationToken);
         Task<RequestResult> Update(User user, CancellationToken cancellationToken);
         Task<RequestResult> UpdatePassword(User user, CancellationToken cancellationToken);

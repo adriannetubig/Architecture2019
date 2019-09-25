@@ -5,9 +5,11 @@ using AuthenticationData.Entities;
 using AuthenticationData.Interfaces;
 using AutoMapper;
 using BaseData.Interfaces;
+using BaseModel;
 using LinqKit;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +25,9 @@ namespace AuthenticationBusinessTest
         Mock<IDataUsers> _moqDataUsers;
         Mock<IRepoBase> _moqRepoBase;
 
-        private User _user;
+        private readonly EntityUser _entityUser;
+        private readonly User _user;
+        private PageFilter _pageFilter;
 
         public BusinessUsersTest()
         {
@@ -36,28 +40,102 @@ namespace AuthenticationBusinessTest
             });
             _imapper = mappingConfig.CreateMapper();
 
-            _moqRepoBase.Setup(a => a.Exists<EntityUser>(b => b.Username == string.Empty, default)).Returns(Task.FromResult(true));
-            _iBusinessUsers = new BusinessUsers(_imapper, _moqRepoBase.Object, _moqDataUsers.Object);
+            _entityUser = new EntityUser
+            {
+                Username = "admin",
+                Password = "$2b$10$BMH23FkUuDMDtMsLBEbb7u7AJ/eYnV5MbJ.or6hYSnRtfDAuAzTpS"
+            };
 
             _user = new User
             {
-                Username = "username",
+                Username = "admin",
                 Password = "password"
+            };
+
+            _pageFilter = new PageFilter
+            {
+                PageNo = 1,
+                ItemsPerPage = 1,
             };
         }
 
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public async Task Create_Test(bool usernameExists)
+        public async Task Create_TestIfExistingUser(bool usernameExists)
         {
             _moqRepoBase.Setup(a => a.Exists(It.IsAny<Expression<Func<EntityUser, bool>>>(), default)).Returns(Task.FromResult(usernameExists));
             _iBusinessUsers = new BusinessUsers(_imapper, _moqRepoBase.Object, _moqDataUsers.Object);
 
-            var createRequestResult = await _iBusinessUsers.Create(_user, default);
+            var requestResult = await _iBusinessUsers.Create(_user, default);
 
-            Assert.Equal(!usernameExists, createRequestResult.Succeeded);
-            Assert.Equal(string.Empty, createRequestResult.Model?.Password ?? string.Empty);
+            Assert.Equal(!usernameExists, requestResult.Succeeded);
+            Assert.Equal(string.Empty, requestResult.Model?.Password ?? string.Empty);
+        }
+
+        [Theory]
+        [InlineData(100, true)]
+        [InlineData(101, false)]
+        public async Task Read_TestPageLimitRestriction(int pages, bool succeeded)
+        {
+            _moqDataUsers.Setup(a => a.Read(It.IsAny<int>(), It.IsAny<int>())).Returns(
+                Task.FromResult(
+                new Tuple<List<EntityUser>, int>(new List<EntityUser>(), 1)
+                ));
+
+            _iBusinessUsers = new BusinessUsers(_imapper, _moqRepoBase.Object, _moqDataUsers.Object);
+
+            _pageFilter.ItemsPerPage = pages;
+
+            var requestResult = await _iBusinessUsers.Read(_pageFilter, default);
+
+            Assert.Equal(succeeded, requestResult.Succeeded);
+            if (succeeded)
+                Assert.Equal(pages, requestResult.Model.ItemsPerPage);
+            else
+                Assert.Equal(100, requestResult.Model.ItemsPerPage);
+        }
+
+        [Theory]
+        [InlineData("password", true)]
+        [InlineData("wrongpassword", false)]
+        public async Task Authenticate_TestPassword(string password, bool succeeded)
+        {
+            _moqRepoBase.Setup(a => a.ReadSingle(It.IsAny<Expression<Func<EntityUser, bool>>>(), default)).Returns(Task.FromResult(_entityUser));
+
+            _iBusinessUsers = new BusinessUsers(_imapper, _moqRepoBase.Object, _moqDataUsers.Object);
+
+            _user.Password = password;
+
+            var requestResult = await _iBusinessUsers.Authenticate(_user, default);
+
+            Assert.Equal(succeeded, requestResult.Succeeded);
+            Assert.Equal(string.Empty, requestResult.Model?.Password ?? string.Empty);
+        }
+
+        [Fact]
+        public async Task Authenticate_TestNotExistingUsername()
+        {
+            _moqRepoBase.Setup(a => a.ReadSingle(It.IsAny<Expression<Func<EntityUser, bool>>>(), default)).Returns(Task.FromResult<EntityUser>(null));
+
+            _iBusinessUsers = new BusinessUsers(_imapper, _moqRepoBase.Object, _moqDataUsers.Object);
+
+            var requestResult = await _iBusinessUsers.Authenticate(_user, default);
+
+            Assert.False(requestResult.Succeeded);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public async Task Validate_TestIfExistingUser(bool validLogin)
+        {
+            _moqRepoBase.Setup(a => a.Exists(It.IsAny<Expression<Func<EntityUser, bool>>>(), default)).Returns(Task.FromResult(validLogin));
+            _iBusinessUsers = new BusinessUsers(_imapper, _moqRepoBase.Object, _moqDataUsers.Object);
+
+            var requestResult = await _iBusinessUsers.Validate(_user, default);
+
+            Assert.Equal(validLogin, requestResult.Succeeded);
         }
     }
 }

@@ -93,16 +93,20 @@ namespace AuthenticationBusiness.Services
             var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username, cancellationToken);
 
             if (entityUser != null && BCrypt.Net.BCrypt.Verify(user.Password, entityUser.Password))
+            {
+                entityUser.Password = string.Empty;
                 requestResult.Model = _iMapper.Map<User>(entityUser);
+            }
             else
+            {
                 requestResult.Errors.Add("Incorrect Username or Password");
-
+            }
             return requestResult;
         }
 
-        public async Task<RequestResult<User>> Validate(User user, CancellationToken cancellationToken)
+        public async Task<RequestResult> Validate(User user, CancellationToken cancellationToken)
         {
-            var requestResult = new RequestResult<User>();
+            var requestResult = new RequestResult();
 
             var isValid = await _iRepoBase.Exists<EntityUser>(a => a.Username == user.Username && a.UserId == user.UserId, cancellationToken);
 
@@ -120,7 +124,6 @@ namespace AuthenticationBusiness.Services
             if (BCrypt.Net.BCrypt.Verify(user.Password, entityUser.Password))
             {
                 entityUser.Password = BCrypt.Net.BCrypt.HashPassword(user.NewPassword);
-
                 await _iRepoBase.Update(entityUser, cancellationToken);
             }
             else
