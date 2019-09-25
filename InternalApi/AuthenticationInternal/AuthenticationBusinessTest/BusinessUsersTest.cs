@@ -49,7 +49,8 @@ namespace AuthenticationBusinessTest
             _user = new User
             {
                 Username = "admin",
-                Password = "password"
+                Password = "password",
+                NewPassword = "newpassword"
             };
 
             _pageFilter = new PageFilter
@@ -136,6 +137,34 @@ namespace AuthenticationBusinessTest
             var requestResult = await _iBusinessUsers.Validate(_user, default);
 
             Assert.Equal(validLogin, requestResult.Succeeded);
+        }
+
+        [Theory]
+        [InlineData("password", true)]
+        [InlineData("wrongpassword", false)]
+        public async Task ChangePassword_TestPassword(string password, bool succeeded)
+        {
+            _moqRepoBase.Setup(a => a.ReadSingle(It.IsAny<Expression<Func<EntityUser, bool>>>(), default)).Returns(Task.FromResult(_entityUser));
+
+            _iBusinessUsers = new BusinessUsers(_imapper, _moqRepoBase.Object, _moqDataUsers.Object);
+
+            _user.Password = password;
+
+            var requestResult = await _iBusinessUsers.ChangePassword(_user, default);
+
+            Assert.Equal(succeeded, requestResult.Succeeded);
+        }
+
+        [Fact]
+        public async Task ChangePassword_TestNotExistingUsername()
+        {
+            _moqRepoBase.Setup(a => a.ReadSingle(It.IsAny<Expression<Func<EntityUser, bool>>>(), default)).Returns(Task.FromResult<EntityUser>(null));
+
+            _iBusinessUsers = new BusinessUsers(_imapper, _moqRepoBase.Object, _moqDataUsers.Object);
+
+            var requestResult = await _iBusinessUsers.ChangePassword(_user, default);
+
+            Assert.False(requestResult.Succeeded);
         }
     }
 }

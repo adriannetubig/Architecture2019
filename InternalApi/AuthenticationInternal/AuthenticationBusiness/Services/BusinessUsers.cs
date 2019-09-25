@@ -90,17 +90,15 @@ namespace AuthenticationBusiness.Services
         {
             var requestResult = new RequestResult<User>();
 
-            var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username, cancellationToken);
+            var requestResultAuthenticateUser = await AuthenticateUser(user, cancellationToken);
+            requestResult.Add(requestResultAuthenticateUser);
 
-            if (entityUser != null && BCrypt.Net.BCrypt.Verify(user.Password, entityUser.Password))
+            if(requestResultAuthenticateUser.Succeeded)
             {
-                entityUser.Password = string.Empty;
-                requestResult.Model = _iMapper.Map<User>(entityUser);
+                requestResultAuthenticateUser.Model.Password = string.Empty;
+                requestResult.Model = _iMapper.Map<User>(requestResultAuthenticateUser.Model);
             }
-            else
-            {
-                requestResult.Errors.Add("Incorrect Username or Password");
-            }
+
             return requestResult;
         }
 
@@ -119,16 +117,14 @@ namespace AuthenticationBusiness.Services
         public async Task<RequestResult> ChangePassword(User user, CancellationToken cancellationToken)
         {
             var requestResult = new RequestResult();
-            var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username, cancellationToken, a => a.Role);
 
-            if (BCrypt.Net.BCrypt.Verify(user.Password, entityUser.Password))
+            var requestResultAuthenticateUser = await AuthenticateUser(user, cancellationToken);
+            requestResult.Add(requestResultAuthenticateUser);
+
+            if (requestResultAuthenticateUser.Succeeded)
             {
-                entityUser.Password = BCrypt.Net.BCrypt.HashPassword(user.NewPassword);
-                await _iRepoBase.Update(entityUser, cancellationToken);
-            }
-            else
-            {
-                requestResult.Errors.Add("Incorrect Username or Password");
+                requestResultAuthenticateUser.Model.Password = BCrypt.Net.BCrypt.HashPassword(user.NewPassword);
+                await _iRepoBase.Update(requestResultAuthenticateUser.Model, cancellationToken);
             }
 
             return requestResult;
@@ -164,6 +160,23 @@ namespace AuthenticationBusiness.Services
 
             await _iRepoBase.Delete<EntityUser>(a => a.UserId == userId, cancellationToken);
 
+            return requestResult;
+        }
+
+        private async Task<RequestResult<EntityUser>> AuthenticateUser(User user, CancellationToken cancellationToken)
+        {
+            var requestResult = new RequestResult<EntityUser>();
+
+            var entityUser = await _iRepoBase.ReadSingle<EntityUser>(a => a.Username == user.Username, cancellationToken);
+
+            if (entityUser != null && BCrypt.Net.BCrypt.Verify(user.Password, entityUser.Password))
+            {
+                requestResult.Model = entityUser;
+            }
+            else
+            {
+                requestResult.Errors.Add("Incorrect Username or Password");
+            }
             return requestResult;
         }
     }
