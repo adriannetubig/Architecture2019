@@ -22,6 +22,7 @@ namespace AuthenticationApi.Helper
             services.AddScoped<IDataUsers>(a => new DataUsers(connectionString));
 
             services.AddScoped<IBusinessAuthentications>(a => new BusinessAuthentications(jwtTokenSettings, jwtTokenValidation));
+            services.AddScoped<IBusinessRefreshTokens, BusinessRefreshTokens>();
             services.AddScoped<IBusinessRoles, BusinessRoles>();
             services.AddScoped<IBusinessUsers, BusinessUsers>();
         }

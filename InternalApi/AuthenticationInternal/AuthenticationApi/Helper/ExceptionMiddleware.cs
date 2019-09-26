@@ -19,17 +19,18 @@ namespace AuthenticationApi.Helper
         public async Task Invoke(HttpContext httpContext)
         {
 
-            try
-            {
-                await _next(httpContext);
-            }
-            catch (Exception ex)
-            {
-                //ToDo: Add Exception Logger here
+            await _next(httpContext);
+            //try
+            //{
+            //    await _next(httpContext);
+            //}
+            //catch (Exception ex)
+            //{
+            //    //ToDo: Add Exception Logger here
 
-                //Custom Exception Handler
-                //await HandleExceptionAsync(httpContext, ex);
-            }
+            //    //Custom Exception Handler
+            //    //await HandleExceptionAsync(httpContext, ex);
+            //}
         }
 
         //Custom Exception Handler
