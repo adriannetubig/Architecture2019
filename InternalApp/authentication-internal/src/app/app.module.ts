@@ -9,6 +9,9 @@ import { AppComponent } from './app.component';
 import { HttpConfigInterceptor} from './interceptors/httpconfig.interceptor';
 
 import { AuthenticationsComponent } from './components/authentications/authentications.component';
+import { FibonaccisComponent } from './components/fibonaccis/fibonaccis.component';
+import { FibonaccisCreateComponent } from './components/fibonaccis-create/fibonaccis-create.component';
+import { FibonaccisUpdateComponent } from './components/fibonaccis-update/fibonaccis-update.component';
 import { UsersComponent } from './components/users/users.component';
 import { UsersCreateComponent } from './components/users-create/users-create.component';
 import { UsersChangePasswordComponent } from './components/users-change-password/users-change-password.component';
@@ -19,6 +22,7 @@ import { UsersUpdatePasswordComponent } from './components/users-update-password
   declarations: [
     AppComponent,
     AuthenticationsComponent,
+    FibonaccisComponent, FibonaccisCreateComponent, FibonaccisUpdateComponent,
     UsersComponent, UsersCreateComponent, UsersChangePasswordComponent, UsersUpdateComponent, UsersUpdatePasswordComponent
   ],
   imports: [
