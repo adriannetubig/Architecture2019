@@ -9,12 +9,10 @@ namespace AuthenticationApi.Controllers.V1
 {
     public class FibonaccisController : BaseControllerV1
     {
-        private readonly IBusinessRoles _iBusinessRoles;
         private readonly IBusinessFibonaccis _iBusinessFibonaccis;
 
-        public FibonaccisController(IBusinessRoles iBusinessRoles, IBusinessFibonaccis iBusinessFibonaccis)
+        public FibonaccisController(IBusinessFibonaccis iBusinessFibonaccis)
         {
-            _iBusinessRoles = iBusinessRoles;
             _iBusinessFibonaccis = iBusinessFibonaccis;
         }
 
