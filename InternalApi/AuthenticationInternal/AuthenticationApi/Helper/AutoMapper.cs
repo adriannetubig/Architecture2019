@@ -10,6 +10,8 @@ namespace AuthenticationApi.Helper
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {
+                mc.CreateMap<EntityFibonacci, Fibonacci>();
+                mc.CreateMap<Fibonacci, EntityFibonacci>();
                 mc.CreateMap<EntityRefreshToken, RefreshToken>();
                 mc.CreateMap<EntityRole, Role>();
                 mc.CreateMap<EntityUser, User>();

@@ -13,6 +13,7 @@ namespace AuthenticationApi.Helper
                 a.DefaultApiVersion = new ApiVersion(1, 0);
 
                 a.Conventions.Controller<Controllers.V1.AuthenticationsController>().HasApiVersion(new ApiVersion(1, 0));
+                a.Conventions.Controller<Controllers.V1.FibonaccisController>().HasApiVersion(new ApiVersion(1, 0));
                 a.Conventions.Controller<Controllers.V1.UsersController>().HasApiVersion(new ApiVersion(1, 0));
             });
         }
