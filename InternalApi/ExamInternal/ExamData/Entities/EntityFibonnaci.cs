@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AuthenticationData.Entities
+namespace ExamData.Entities
 {
     [Table("Fibonacci")]
     public partial class EntityFibonacci

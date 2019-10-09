@@ -1,16 +1,16 @@
-﻿using AuthenticationData.Entities;
-using AuthenticationData.Interfaces;
-using BaseData.Services;
+﻿using BaseData.Services;
 using Dapper;
+using ExamData.Entities;
+using ExamData.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AuthenticationData.Services
+namespace ExamData.Services
 {
     public class DataFibonaccis : SqlBase, IDataFibonaccis
     {
-        public DataFibonaccis(string connectionString): base(connectionString)
+        public DataFibonaccis(string connectionString) : base(connectionString)
         {
         }
 

@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
-namespace AuthenticationApi.Helper
+namespace ExamApi.Helper
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
@@ -18,17 +17,6 @@ namespace AuthenticationApi.Helper
         {
 
             await _next(httpContext);
-            //try
-            //{
-            //    await _next(httpContext);
-            //}
-            //catch (Exception ex)
-            //{
-            //    //ToDo: Add Exception Logger here
-
-            //    //Custom Exception Handler
-            //    //await HandleExceptionAsync(httpContext, ex);
-            //}
         }
 
         //Custom Exception Handler

@@ -1,17 +1,17 @@
-﻿using AuthenticationBusiness.Interfaces;
-using AuthenticationBusiness.Models;
-using AuthenticationData.Entities;
-using AuthenticationData.Interfaces;
-using AutoMapper;
+﻿using AutoMapper;
 using BaseData.Interfaces;
 using BaseModel;
+using ExamBusiness.Interfaces;
+using ExamBusiness.Models;
+using ExamData.Entities;
+using ExamData.Interfaces;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AuthenticationBusiness.Services
+namespace ExamBusiness.Services
 {
-    public class BusinessFibonaccis: IBusinessFibonaccis
+    public class BusinessFibonaccis : IBusinessFibonaccis
     {
         private readonly IMapper _iMapper;
         private readonly IDataFibonaccis _iDataFibonaccis;

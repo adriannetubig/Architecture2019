@@ -10,7 +10,6 @@ namespace AuthenticationData
         {
         }
         //Do not add custom entities
-        public DbSet<EntityFibonacci> Fibonaccis { get; set; }
         public DbSet<EntityRole> Roles { get; set; }
         public DbSet<EntityRefreshToken> RefreshTokens { get; set; }
         public DbSet<EntityUser> Users { get; set; }

@@ -1,12 +1,14 @@
-﻿using AuthenticationBusiness.Interfaces;
-using AuthenticationBusiness.Models;
-using BaseModel;
+﻿using BaseModel;
+using ExamBusiness.Interfaces;
+using ExamBusiness.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AuthenticationApi.Controllers.V1
+namespace ExamApi.Controllers.V1
 {
+    //[Authorize]
     public class FibonaccisController : BaseControllerV1
     {
         private readonly IBusinessFibonaccis _iBusinessFibonaccis;

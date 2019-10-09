@@ -1,9 +1,9 @@
-﻿using AuthenticationData.Entities;
+﻿using ExamData.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AuthenticationData.Interfaces
+namespace ExamData.Interfaces
 {
     public interface IDataFibonaccis
     {

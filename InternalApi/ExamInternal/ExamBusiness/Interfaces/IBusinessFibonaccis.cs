@@ -1,9 +1,9 @@
-﻿using AuthenticationBusiness.Models;
-using BaseModel;
+﻿using BaseModel;
+using ExamBusiness.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AuthenticationBusiness.Interfaces
+namespace ExamBusiness.Interfaces
 {
     public interface IBusinessFibonaccis
     {

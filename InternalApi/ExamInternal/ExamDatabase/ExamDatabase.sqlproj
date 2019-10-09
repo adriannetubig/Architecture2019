@@ -3,16 +3,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>AuthenticationDatabase</Name>
+    <Name>ExamDatabase</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{4e2c2732-25b5-4d0e-b048-301592524b5a}</ProjectGuid>
+    <ProjectGuid>{d2646fd9-9431-401d-a6da-58163fe6de6e}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>AuthenticationDatabase</RootNamespace>
-    <AssemblyName>AuthenticationDatabase</AssemblyName>
+    <RootNamespace>ExamDatabase</RootNamespace>
+    <AssemblyName>ExamDatabase</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
@@ -60,10 +60,8 @@
     <Folder Include="StoredProcedure" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\User.sql" />
-    <Build Include="Tables\Role.sql" />
-    <Build Include="StoredProcedure\GetUsersPaged.sql" />
-    <Build Include="Tables\RefreshToken.sql" />
+    <Build Include="Tables\Fibonacci.sql" />
+    <Build Include="StoredProcedure\GetFibonaccisPaged.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment.sql" />

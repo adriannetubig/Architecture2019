@@ -1,4 +1,4 @@
-﻿namespace AuthenticationBusiness.Models
+﻿namespace ExamBusiness.Models
 {
     public class Fibonacci
     {
