@@ -6,12 +6,10 @@ using AuthenticationData.Interfaces;
 using AutoMapper;
 using BaseData.Interfaces;
 using BaseModel;
-using LinqKit;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
