@@ -29,7 +29,15 @@ namespace ExamBusiness.Services
             var requestResult = new RequestResult<Fibonacci>();
             var entityFibonacci = _iMapper.Map<EntityFibonacci>(fibonacci);
 
-            entityFibonacci.Total = FibonacciTotal(fibonacci.Iterations);
+            if (fibonacci.Iterations > 46)
+            {
+                requestResult.Errors.Add("Cannot compute for more than 46");
+                entityFibonacci.Total = 0;
+            }
+            else
+            {
+                entityFibonacci.Total = FibonacciTotal(fibonacci.Iterations);
+            }
 
             await _iRepoBase.Create(entityFibonacci, cancellationToken);
             requestResult.Model = _iMapper.Map<Fibonacci>(entityFibonacci);
@@ -80,7 +88,16 @@ namespace ExamBusiness.Services
             var entityFibonacci = await _iRepoBase.ReadSingle<EntityFibonacci>(a => a.FibonacciId == fibonacci.FibonacciId, cancellationToken);
 
             entityFibonacci.Iterations = fibonacci.Iterations;
-            entityFibonacci.Total = FibonacciTotal(fibonacci.Iterations);
+
+            if (fibonacci.Iterations > 46)
+            {
+                requestResult.Errors.Add("Cannot compute for more than 46");
+                entityFibonacci.Total = 0;
+            }
+            else
+            {
+                entityFibonacci.Total = FibonacciTotal(fibonacci.Iterations);
+            }
 
             await _iRepoBase.Update(entityFibonacci, cancellationToken);
             return requestResult;
@@ -100,10 +117,14 @@ namespace ExamBusiness.Services
             var previous = 0;
             var next = 1;
 
-            if (iterations < 0)
+            if (iterations <= 0)
+            {
                 next = 0;
+            }
             else
+            {
                 iterations -= 1;
+            }
 
             var iteration = 0;
             while (iteration < iterations)
