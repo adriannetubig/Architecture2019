@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "648138e2-0cae-49e1-be75-1b1c23db93e4",
+		"_postman_id": "d3d26d46-2c89-473a-b279-b5444b75a644",
 		"name": "Architecture2019",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -48,12 +48,11 @@
 													"raw": "{\r\n   \"username\":\"{{Username}}\",\r\n   \"password\": \"{{Password}}\"\r\n} "
 												},
 												"url": {
-													"raw": "{{UrlInternalAuthentication}}/api/v1/Authentications",
+													"raw": "{{UrlInternalAuthentication}}api/v1/Authentications",
 													"host": [
-														"{{UrlInternalAuthentication}}"
+														"{{UrlInternalAuthentication}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Authentications"
 													]
@@ -62,9 +61,11 @@
 											"response": []
 										}
 									],
+									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								}
 							],
+							"protocolProfileBehavior": {},
 							"_postman_isSubFolder": true
 						},
 						{
@@ -112,12 +113,11 @@
 													}
 												},
 												"url": {
-													"raw": "{{UrlInternalAuthentication}}/api/v1/Users",
+													"raw": "{{UrlInternalAuthentication}}api/v1/Users",
 													"host": [
-														"{{UrlInternalAuthentication}}"
+														"{{UrlInternalAuthentication}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Users"
 													]
@@ -149,12 +149,11 @@
 													}
 												],
 												"url": {
-													"raw": "{{UrlInternalAuthentication}}/api/v1/Users/1",
+													"raw": "{{UrlInternalAuthentication}}api/v1/Users/1",
 													"host": [
-														"{{UrlInternalAuthentication}}"
+														"{{UrlInternalAuthentication}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Users",
 														"1"
@@ -202,12 +201,11 @@
 													}
 												},
 												"url": {
-													"raw": "{{UrlInternalAuthentication}}/api/v1/Users/Search",
+													"raw": "{{UrlInternalAuthentication}}api/v1/Users/Search",
 													"host": [
-														"{{UrlInternalAuthentication}}"
+														"{{UrlInternalAuthentication}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Users",
 														"Search"
@@ -250,12 +248,11 @@
 													"raw": "{\n\t\"userId\": 2,\n\t\"roleId\": 1\n}"
 												},
 												"url": {
-													"raw": "{{UrlInternalAuthentication}}/api/v1/Users",
+													"raw": "{{UrlInternalAuthentication}}api/v1/Users",
 													"host": [
-														"{{UrlInternalAuthentication}}"
+														"{{UrlInternalAuthentication}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Users"
 													]
@@ -297,12 +294,11 @@
 													"raw": "{\n\t\"userId\": 2,\n\t\"username\": \"user\",\n\t\"password\": \"password\",\n\t\"newPassword\": \"pestword\"\n}"
 												},
 												"url": {
-													"raw": "{{UrlInternalAuthentication}}/api/v1/Users/ChangePassword",
+													"raw": "{{UrlInternalAuthentication}}api/v1/Users/ChangePassword",
 													"host": [
-														"{{UrlInternalAuthentication}}"
+														"{{UrlInternalAuthentication}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Users",
 														"ChangePassword"
@@ -345,12 +341,11 @@
 													"raw": "{\n\t\"userId\": 2,\n\t\"password\": \"password\"\n}"
 												},
 												"url": {
-													"raw": "{{UrlInternalAuthentication}}/api/v1/Users/UpdatePassword",
+													"raw": "{{UrlInternalAuthentication}}api/v1/Users/UpdatePassword",
 													"host": [
-														"{{UrlInternalAuthentication}}"
+														"{{UrlInternalAuthentication}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Users",
 														"UpdatePassword"
@@ -383,12 +378,11 @@
 													}
 												],
 												"url": {
-													"raw": "{{UrlInternalAuthentication}}/api/v1/Users/2",
+													"raw": "{{UrlInternalAuthentication}}api/v1/Users/2",
 													"host": [
-														"{{UrlInternalAuthentication}}"
+														"{{UrlInternalAuthentication}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Users",
 														"2"
@@ -398,9 +392,11 @@
 											"response": []
 										}
 									],
+									"protocolProfileBehavior": {},
 									"_postman_isSubFolder": true
 								}
 							],
+							"protocolProfileBehavior": {},
 							"_postman_isSubFolder": true
 						}
 					],
@@ -455,12 +451,11 @@
 													}
 												},
 												"url": {
-													"raw": "{{UrlInternalExam}}/api/v1/Fibonaccis",
+													"raw": "{{UrlInternalExam}}api/v1/Fibonaccis",
 													"host": [
-														"{{UrlInternalExam}}"
+														"{{UrlInternalExam}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Fibonaccis"
 													]
@@ -492,12 +487,11 @@
 													}
 												],
 												"url": {
-													"raw": "{{UrlInternalExam}}/api/v1/Fibonaccis/1",
+													"raw": "{{UrlInternalExam}}api/v1/Fibonaccis/1",
 													"host": [
-														"{{UrlInternalExam}}"
+														"{{UrlInternalExam}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Fibonaccis",
 														"1"
@@ -545,12 +539,11 @@
 													}
 												},
 												"url": {
-													"raw": "{{UrlInternalExam}}/api/v1/Fibonaccis/Search",
+													"raw": "{{UrlInternalExam}}api/v1/Fibonaccis/Search",
 													"host": [
-														"{{UrlInternalExam}}"
+														"{{UrlInternalExam}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Fibonaccis",
 														"Search"
@@ -593,12 +586,11 @@
 													"raw": "{\n\t\"fibonacciId\": 1,\n\t\"iterations\": 1\n}"
 												},
 												"url": {
-													"raw": "{{UrlInternalExam}}/api/v1/Fibonaccis",
+													"raw": "{{UrlInternalExam}}api/v1/Fibonaccis",
 													"host": [
-														"{{UrlInternalExam}}"
+														"{{UrlInternalExam}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Fibonaccis"
 													]
@@ -630,12 +622,11 @@
 													}
 												],
 												"url": {
-													"raw": "{{UrlInternalExam}}/api/v1/Fibonaccis/1",
+													"raw": "{{UrlInternalExam}}api/v1/Fibonaccis/1",
 													"host": [
-														"{{UrlInternalExam}}"
+														"{{UrlInternalExam}}api"
 													],
 													"path": [
-														"api",
 														"v1",
 														"Fibonaccis",
 														"1"
@@ -656,7 +647,8 @@
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "External",
@@ -712,9 +704,11 @@
 									"response": []
 								}
 							],
+							"protocolProfileBehavior": {},
 							"_postman_isSubFolder": true
 						}
 					],
+					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				},
 				{
@@ -777,12 +771,184 @@
 									"response": []
 								}
 							],
+							"protocolProfileBehavior": {},
 							"_postman_isSubFolder": true
 						}
 					],
+					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Runner",
+			"item": [
+				{
+					"name": "Internal",
+					"item": [
+						{
+							"name": "Authentication",
+							"item": [
+								{
+									"name": "AuthenticationCheck",
+									"item": [
+										{
+											"name": "CorrectAuthentication",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);",
+															"",
+															"pm.test(\"This is a valid user\", function () {",
+															"    pm.expect(jsonData.succeeded).to.eql(true);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"name": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n   \"username\":\"{{Username}}\",\r\n   \"password\": \"{{Password}}\"\r\n} "
+												},
+												"url": {
+													"raw": "{{UrlInternalAuthentication}}api/v1/Authentications",
+													"host": [
+														"{{UrlInternalAuthentication}}api"
+													],
+													"path": [
+														"v1",
+														"Authentications"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Username does not exist",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);",
+															"",
+															"pm.test(\"Invalid User\", function () {",
+															"    pm.expect(jsonData.succeeded).to.eql(false);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"name": "Content-Type",
+														"type": "text",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n   \"username\":\"ThisUsernameDoesNotExist\",\r\n   \"password\": \"{{Password}}\"\r\n} "
+												},
+												"url": {
+													"raw": "{{UrlInternalAuthentication}}api/v1/Authentications",
+													"host": [
+														"{{UrlInternalAuthentication}}api"
+													],
+													"path": [
+														"v1",
+														"Authentications"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Wrong Password",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);",
+															"",
+															"pm.test(\"Wrong Password\", function () {",
+															"    pm.expect(jsonData.succeeded).to.eql(false);",
+															"});"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"name": "Content-Type",
+														"type": "text",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n   \"username\":\"{{Username}}\",\r\n   \"password\": \"ThisShouldBeAWrongPassword\"\r\n} "
+												},
+												"url": {
+													"raw": "{{UrlInternalAuthentication}}api/v1/Authentications",
+													"host": [
+														"{{UrlInternalAuthentication}}api"
+													],
+													"path": [
+														"v1",
+														"Authentications"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"protocolProfileBehavior": {},
+									"_postman_isSubFolder": true
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "User Test",
+							"item": [],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
