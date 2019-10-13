@@ -1,14 +1,12 @@
 ﻿using BaseModel;
 using ExamBusiness.Interfaces;
 using ExamBusiness.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace ExamApi.Controllers.V1
 {
-    //[Authorize]
     public class FibonaccisController : BaseControllerV1
     {
         private readonly IBusinessFibonaccis _iBusinessFibonaccis;
