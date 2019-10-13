@@ -39,17 +39,21 @@ namespace AuthenticationApi.Controllers.V1
 
                 if (requestResultAuthentication.Succeeded)
                     requestResult.Model = requestResultAuthentication.Model;
+
+                return Ok(requestResult);
+            }
+            else
+            {
+                return Unauthorized(requestResult);
             }
 
-            return Ok(requestResult);
         }
 
         [AllowAnonymous, HttpPost, Route("Refresh")]
         public async Task<IActionResult> Refresh(CancellationToken cancellationToken, [FromBody]Authentication authentication)
         {
             var requestResult = new RequestResult<Authentication>();
-
-            var user = new User();
+            User user;
 
             var requestResultVerifyToken = _iBusinessAuthentications.VerifyToken(authentication);
 

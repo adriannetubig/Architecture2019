@@ -23,7 +23,7 @@ namespace AuthenticationApi.Controllers.V1
         public async Task<IActionResult> Create(User user, CancellationToken cancellationToken)
         {
             var requestResult = await _iBusinessUsers.Create(user, cancellationToken);
-            return Ok(requestResult);
+            return Created(requestResult);
         }
 
         [HttpGet("{userId}")]
@@ -38,15 +38,21 @@ namespace AuthenticationApi.Controllers.V1
             requestResult.Add(requestResultUser);
 
             if (requestResultUser.Succeeded)
+            {
                 requestResult.Model.User = requestResultUser.Model;
 
-            var requestResultRole = await _iBusinessRoles.Read(cancellationToken);
-            requestResult.Add(requestResultRole);
+                var requestResultRole = await _iBusinessRoles.Read(cancellationToken);
+                requestResult.Add(requestResultRole);
 
-            if (requestResultRole.Succeeded)
-                requestResult.Model.Roles = requestResultRole.Model;
+                if (requestResultRole.Succeeded)
+                    requestResult.Model.Roles = requestResultRole.Model;
 
-            return Ok(requestResult);
+                return Ok(requestResult);
+            }
+            else
+            {
+                return NotFound(requestResult);
+            }                
         }
 
         [HttpPost]

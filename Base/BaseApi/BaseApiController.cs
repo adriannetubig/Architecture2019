@@ -19,5 +19,29 @@ namespace BaseApi
                 StatusCode = (int)HttpStatusCode.Created
             };
         }
+
+        protected virtual IActionResult BadRequest<T>(T model)
+        {
+            return new ObjectResult(model)
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest
+            };
+        }
+
+        protected virtual IActionResult Unauthorized<T>(T model)
+        {
+            return new ObjectResult(model)
+            {
+                StatusCode = (int)HttpStatusCode.Unauthorized
+            };
+        }
+
+        protected virtual IActionResult NotFound<T>(T model)
+        {
+            return new ObjectResult(model)
+            {
+                StatusCode = (int)HttpStatusCode.NotFound
+            };
+        }
     }
 }

@@ -1,0 +1,1117 @@
+{
+	"info": {
+		"_postman_id": "1ba80021-aea3-44c7-8306-8151ba7a5353",
+		"name": "Architecture2019 Runner",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Internal",
+			"item": [
+				{
+					"name": "Authentications",
+					"item": [
+						{
+							"name": "AuthenticationCheck",
+							"item": [
+								{
+									"name": "CorrectAuthentication",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"username\":\"{{Username}}\",\r\n   \"password\": \"{{Password}}\"\r\n} "
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Authentications",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Authentications"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Username does not exist",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Failed\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(false);",
+													"});",
+													"",
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"username\":\"ThisUsernameDoesNotExist\",\r\n   \"password\": \"{{Password}}\"\r\n} "
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Authentications",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Authentications"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Wrong Password",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Failed\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(false);",
+													"});",
+													"",
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"username\":\"{{Username}}\",\r\n   \"password\": \"ThisShouldBeAWrongPassword\"\r\n} "
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Authentications",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Authentications"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Happy Path",
+							"item": [
+								{
+									"name": "Authentication",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"postman.setEnvironmentVariable(\"Authorization\", jsonData.model.token)",
+													"postman.setEnvironmentVariable(\"RefreshToken\", jsonData.model.refreshToken)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"username\":\"{{Username}}\",\r\n   \"password\": \"{{Password}}\"\r\n} "
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Authentications",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Authentications"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"postman.setEnvironmentVariable(\"InternalAuthenticationUserId\", jsonData.model.userId)",
+													"postman.setEnvironmentVariable(\"CreatedUsername\", jsonData.model.username)"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer  {{Authorization}}"
+											},
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"roleId\": \"{{OldRoleId}}\",\n\t\"username\": \"{{$timestamp}}\",\n\t\"password\": \"{{OldPassword}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "User can LogIn",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"username\":\"{{CreatedUsername}}\",\r\n   \"password\": \"{{OldPassword}}\"\r\n} "
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Authentications",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Authentications"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer  {{Authorization}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users/{{InternalAuthenticationUserId}}",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users",
+												"{{InternalAuthenticationUserId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"})",
+													"",
+													"var user;",
+													"",
+													"for(i =0; i < jsonData.model.numberOfItems; i++)",
+													"{",
+													"    if(jsonData.model.items[i].userId == environment.InternalAuthenticationUserId)",
+													"    {",
+													"        user = jsonData.model.items[i];",
+													"    }",
+													"}",
+													"",
+													"pm.test(\"Created user exists\", function () {",
+													"    pm.expect(user).not.equal(undefined);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer  {{Authorization}}"
+											},
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"pageNo\": 1,\n\t\"itemsPerPage\": 10\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users/Search",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users",
+												"Search"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer  {{Authorization}}"
+											},
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"userId\": \"{{InternalAuthenticationUserId}}\",\n\t\"roleId\": \"{{NewRoleId}}\"\n}"
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Check if Updated",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"RoleId should be changed\", function () {",
+													"    pm.expect(jsonData.model.user.roleId).to.eql(+environment.NewRoleId);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer  {{Authorization}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users/{{InternalAuthenticationUserId}}",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users",
+												"{{InternalAuthenticationUserId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ChangePassword",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer  {{Authorization}}"
+											},
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"userId\": \"{{InternalAuthenticationUserId}}\",\n\t\"username\": \"{{CreatedUsername}}\",\n\t\"password\": \"{{OldPassword}}\",\n\t\"newPassword\": \"{{NewPassword}}\"\n}"
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users/ChangePassword",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users",
+												"ChangePassword"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Password Changed after ChangePassword",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"username\":\"{{CreatedUsername}}\",\r\n   \"password\": \"{{NewPassword}}\"\r\n} "
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Authentications",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Authentications"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdatePassword",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer  {{Authorization}}"
+											},
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"userId\": 2,\n\t\"password\": \"{{OldPassword}}\"\n}"
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users/UpdatePassword",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users",
+												"UpdatePassword"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Password Changed after UpdatePAssword",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n   \"username\":\"{{CreatedUsername}}\",\r\n   \"password\": \"{{OldPassword}}\"\r\n} "
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Authentications",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Authentications"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);",
+													"",
+													"pm.test(\"Succeeded\", function () {",
+													"    pm.expect(jsonData.succeeded).to.eql(true);",
+													"});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer  {{Authorization}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users/{{InternalAuthenticationUserId}}",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users",
+												"{{InternalAuthenticationUserId}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "Users - Unauthenticated",
+							"item": [
+								{
+									"name": "Create",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"roleId\": 2,\n\t\"username\": \"user\",\n\t\"password\": \"password\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users/1",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"pageNo\": 1,\n\t\"itemsPerPage\": 10\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users/Search",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users",
+												"Search"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "Bearer  {{Authorization}}"
+											},
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"userId\": 2,\n\t\"roleId\": 1\n}"
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ChangePassword",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"userId\": 2,\n\t\"username\": \"user\",\n\t\"password\": \"password\",\n\t\"newPassword\": \"pestword\"\n}"
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users/ChangePassword",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users",
+												"ChangePassword"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UpdatePassword",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n\t\"userId\": 2,\n\t\"password\": \"password\"\n}"
+										},
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users/UpdatePassword",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users",
+												"UpdatePassword"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{UrlInternalAuthentication}}api/v1/Users/2",
+											"host": [
+												"{{UrlInternalAuthentication}}api"
+											],
+											"path": [
+												"v1",
+												"Users",
+												"2"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"protocolProfileBehavior": {},
+							"_postman_isSubFolder": true
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
