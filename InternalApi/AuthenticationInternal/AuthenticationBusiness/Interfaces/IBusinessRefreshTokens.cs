@@ -9,6 +9,6 @@ namespace AuthenticationBusiness.Interfaces
     {
         Task<RequestResult<RefreshToken>> Create(int userId, CancellationToken cancellationToken);
         Task<RequestResult<RefreshToken>> Refresh(int userId, string refreshToken, CancellationToken cancellationToken);
-
+        Task<RequestResult> Delete(int userId, CancellationToken cancellationToken);
     }
 }

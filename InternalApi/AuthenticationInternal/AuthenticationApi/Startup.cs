@@ -57,11 +57,11 @@ namespace AuthenticationApi
 
             var connectionString = Configuration.GetConnectionString("Default");
 
-            Helper.Dependency.SetDependency(ref services, connectionString, jwtTokenSettings, jwtTokenValidation);
+            Dependency.SetDependency(ref services, connectionString, jwtTokenSettings, jwtTokenValidation);
 
             services.AddSingleton(Helper.AutoMapper.Config());
 
-            Helper.ApiVersioning.SetVersion(ref services);
+            ApiVersioning.SetVersion(ref services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -439,7 +439,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"pageNo\": 1,\n\t\"itemsPerPage\": 10\n}",
+											"raw": "{\n\t\"pageNo\": 1,\n\t\"itemsPerPage\": 100\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -961,19 +961,7 @@
 									],
 									"request": {
 										"method": "POST",
-										"header": [
-											{
-												"key": "Authorization",
-												"type": "text",
-												"value": "Bearer  {{Authorization}}"
-											},
-											{
-												"key": "Content-Type",
-												"name": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											}
-										],
+										"header": [],
 										"body": {
 											"mode": "raw",
 											"raw": "{\n\t\"userId\": 2,\n\t\"roleId\": 1\n}"

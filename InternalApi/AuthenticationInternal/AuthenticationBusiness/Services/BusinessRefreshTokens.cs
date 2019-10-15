@@ -24,7 +24,7 @@ namespace AuthenticationBusiness.Services
 
         public async Task<RequestResult<RefreshToken>> Create(int userId, CancellationToken cancellationToken)
         {
-            var functionResult = new RequestResult<RefreshToken>();
+            var requestResult = new RequestResult<RefreshToken>();
 
             var entityRefreshToken = new EntityRefreshToken
             {
@@ -35,9 +35,9 @@ namespace AuthenticationBusiness.Services
 
             await _iRepoBase.Create(entityRefreshToken, cancellationToken);
 
-            functionResult.Model = _iMapper.Map<RefreshToken>(entityRefreshToken);
+            requestResult.Model = _iMapper.Map<RefreshToken>(entityRefreshToken);
 
-            return functionResult;
+            return requestResult;
         }
 
         private string CreateToken()
@@ -55,27 +55,39 @@ namespace AuthenticationBusiness.Services
 
         public async Task<RequestResult<RefreshToken>> Refresh(int userId, string refreshToken, CancellationToken cancellationToken)
         {
-            var functionResult = new RequestResult<RefreshToken>();
+            var requestResult = new RequestResult<RefreshToken>();
 
             var entityRefreshToken = await _iRepoBase.ReadSingle<EntityRefreshToken>(a => a.UserId == userId && a.Token == refreshToken, cancellationToken);
             if (entityRefreshToken != null)
                 return await Update(cancellationToken, userId, entityRefreshToken);
             else
-                functionResult.Errors.Add("Invalid Refresh Token");
+                requestResult.Errors.Add("Invalid Refresh Token");
 
-            return functionResult;
+            return requestResult;
+        }
+
+        public async Task<RequestResult> Delete(int userId, CancellationToken cancellationToken)
+        {
+            var requestResult = new RequestResult<RefreshToken>();
+
+            var hasRefreshTokens = await _iRepoBase.Exists<EntityRefreshToken>(a => a.UserId == userId, cancellationToken);
+
+            if (hasRefreshTokens)
+                await _iRepoBase.Delete<EntityRefreshToken>(a => a.UserId == userId, cancellationToken);
+
+            return requestResult;
         }
 
         private async Task<RequestResult<RefreshToken>> Update(CancellationToken cancellationToken, int userId, EntityRefreshToken entityRefreshToken)
         {
-            var functionResult = new RequestResult<RefreshToken>();
+            var requestResult = new RequestResult<RefreshToken>();
 
             entityRefreshToken.Token = CreateToken();
             await _iRepoBase.Update(entityRefreshToken, cancellationToken);
 
-            functionResult.Model = _iMapper.Map<RefreshToken>(entityRefreshToken);
+            requestResult.Model = _iMapper.Map<RefreshToken>(entityRefreshToken);
 
-            return functionResult;
+            return requestResult;
         }
 
     }
