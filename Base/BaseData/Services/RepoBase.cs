@@ -57,6 +57,12 @@ namespace BaseData.Services
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task Update<TEntity>(List<TEntity> entities, CancellationToken cancellationToken) where TEntity : class
+        {
+            _dbContext.Set<TEntity>().UpdateRange(entities);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task Delete<TEntity>(TEntity entity, CancellationToken cancellationToken) where TEntity : class
         {
             _dbContext.Set<TEntity>().Remove(entity);
