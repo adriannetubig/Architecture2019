@@ -1,6 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using BaseModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace AuthenticationApi.Helper
 {
@@ -16,29 +23,27 @@ namespace AuthenticationApi.Helper
 
         public async Task Invoke(HttpContext httpContext)
         {
+            try
+            {
+                await _next(httpContext);
+            }
+            catch (Exception ex)
+            {
 
-            await _next(httpContext);
-            //try
-            //{
-            //    await _next(httpContext);
-            //}
-            //catch (Exception ex)
-            //{
-            //    //ToDo: Add Exception Logger here
+                //ToDo: Add Exception Logger here
 
-            //    //Custom Exception Handler
-            //    //await HandleExceptionAsync(httpContext, ex);
-            //}
+                //Custom Exception Handler
+                await HandleExceptionAsync(httpContext, ex);
+            }
         }
 
         //Custom Exception Handler
-        //private Task HandleExceptionAsync(HttpContext context, Exception exception)
-        //{
-        //    context.Response.ContentType = "application/json";
-        //    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-        //    return context.Response.WriteAsync("Internal Server Error from the custom middleware.");
-        //}
+        private Task HandleExceptionAsync(HttpContext context, Exception exception)
+        {
+            var requestResult = new RequestResult();
+            requestResult.Errors.Add("There was an Error");
+            return context.Response.WriteAsync(JsonConvert.SerializeObject(requestResult));
+        }
     }
 
     // Extension method used to add the middleware to the HTTP request pipeline.

@@ -10,11 +10,13 @@ namespace AuthenticationApi.Controllers.V1
 {
     public class UsersController : BaseControllerV1
     {
+        private readonly IBusinessRefreshTokens _iBusinessRefreshTokens;
         private readonly IBusinessRoles _iBusinessRoles;
         private readonly IBusinessUsers _iBusinessUsers;
 
-        public UsersController(IBusinessRoles iBusinessRoles, IBusinessUsers iBusinessUsers)
+        public UsersController(IBusinessRefreshTokens iBusinessRefreshTokens, IBusinessRoles iBusinessRoles, IBusinessUsers iBusinessUsers)
         {
+            _iBusinessRefreshTokens = iBusinessRefreshTokens;
             _iBusinessRoles = iBusinessRoles;
             _iBusinessUsers = iBusinessUsers;
         }
@@ -97,6 +99,7 @@ namespace AuthenticationApi.Controllers.V1
         [HttpDelete("{userId}")]
         public async Task<IActionResult> Delete(int userId, CancellationToken cancellationToken)
         {
+            await _iBusinessRefreshTokens.Delete(userId, cancellationToken);
             var requestResult = await _iBusinessUsers.Delete(userId, cancellationToken);
             return Ok(requestResult);
         }
