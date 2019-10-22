@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BaseConsumer" Version="1.0.2" />
+    <PackageReference Include="BaseConsumer" Version="1.0.5" />
     <PackageReference Include="BaseModel" Version="1.0.12" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.5.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
