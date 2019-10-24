@@ -2,7 +2,7 @@
 
 namespace BaseData.Entities
 {
-    public class EPagedList<T> where T : class
+    public class EntityPagedList<T> where T : class
     {
         public int ItemsPerPage { get; set; }
         public int PageNo { get; set; }

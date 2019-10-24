@@ -52,7 +52,7 @@ namespace BaseData.Services
                 .Where(expression)
                 .ToListAsync(cancellationToken);
         }
-        public async Task<EPagedList<TEntity>> ReadMultiple<TEntity>(Expression<Func<TEntity, bool>> predicate, bool ascending, int itemsPerPage, int pageNo, string sortBy, CancellationToken cancellationToken)
+        public async Task<EntityPagedList<TEntity>> ReadMultiple<TEntity>(Expression<Func<TEntity, bool>> predicate, bool ascending, int itemsPerPage, int pageNo, string sortBy, CancellationToken cancellationToken)
             where TEntity : class
         {
             IQueryable<TEntity> entities = _dbContext.Set<TEntity>()
@@ -61,7 +61,7 @@ namespace BaseData.Services
 
             return await PagedResult(entities, ascending, itemsPerPage, pageNo, sortBy, cancellationToken);
         }
-        public async Task<EPagedList<TEntity>> ReadMultiple<TEntity>(Expression<Func<TEntity, bool>> predicate, bool ascending, int itemsPerPage, int pageNo, string sortBy, CancellationToken cancellationToken,
+        public async Task<EntityPagedList<TEntity>> ReadMultiple<TEntity>(Expression<Func<TEntity, bool>> predicate, bool ascending, int itemsPerPage, int pageNo, string sortBy, CancellationToken cancellationToken,
             params Expression<Func<TEntity, object>>[] includeExpressions) where TEntity : class
         {
             IQueryable<TEntity> entities = _dbContext.Set<TEntity>()
@@ -96,7 +96,7 @@ namespace BaseData.Services
             await Delete(entity, cancellationToken);
         }
 
-        private async Task<EPagedList<TEntity>> PagedResult<TEntity>(IQueryable<TEntity> entities, bool ascending, int itemsPerPage, int pageNo, string sortBy, CancellationToken cancellationToken)
+        private async Task<EntityPagedList<TEntity>> PagedResult<TEntity>(IQueryable<TEntity> entities, bool ascending, int itemsPerPage, int pageNo, string sortBy, CancellationToken cancellationToken)
             where TEntity : class
         {
             var resultCount = entities.Count();
@@ -104,7 +104,7 @@ namespace BaseData.Services
 
             entities = OrderBy(entities, sortBy, ascending);
 
-            EPagedList<TEntity> resultEPagedList = new EPagedList<TEntity>
+            EntityPagedList<TEntity> resultEPagedList = new EntityPagedList<TEntity>
             {
                 PageNo = pageNo,
                 Items = await entities.Skip(excludedRows).Take(itemsPerPage).ToListAsync(cancellationToken),
