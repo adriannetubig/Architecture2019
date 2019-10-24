@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BaseData.Interfaces;
 using BaseModel;
+using ErrorLoggerBusiness.Interfaces;
 using ErrorLoggerBusiness.Models;
 using ErrorLoggerData.Entities;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ErrorLoggerBusiness.Services
 {
-    public class BusinessExceptionLogs
+    public class BusinessExceptionLogs : IBusinessExceptionLogs
     {
         private readonly IMapper _iMapper;
         private readonly IRepoBase _iRepoBase;
