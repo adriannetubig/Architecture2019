@@ -52,15 +52,16 @@ namespace BaseData.Services
                 .Where(expression)
                 .ToListAsync(cancellationToken);
         }
-        public async Task<EPagedList<TEntity>> ReadMultiple<TEntity>(Expression<Func<TEntity, bool>> predicate, EPageFilter ePageFilter, CancellationToken cancellationToken) where TEntity : class
+        public async Task<EPagedList<TEntity>> ReadMultiple<TEntity>(Expression<Func<TEntity, bool>> predicate, bool ascending, int itemsPerPage, int pageNo, string sortBy, CancellationToken cancellationToken)
+            where TEntity : class
         {
             IQueryable<TEntity> entities = _dbContext.Set<TEntity>()
                 .AsNoTracking()
                 .Where(predicate);
 
-            return await PagedResult(entities, ePageFilter, cancellationToken);
+            return await PagedResult(entities, ascending, itemsPerPage, pageNo, sortBy, cancellationToken);
         }
-        public async Task<EPagedList<TEntity>> ReadMultiple<TEntity>(Expression<Func<TEntity, bool>> predicate, EPageFilter ePageFilter, CancellationToken cancellationToken,
+        public async Task<EPagedList<TEntity>> ReadMultiple<TEntity>(Expression<Func<TEntity, bool>> predicate, bool ascending, int itemsPerPage, int pageNo, string sortBy, CancellationToken cancellationToken,
             params Expression<Func<TEntity, object>>[] includeExpressions) where TEntity : class
         {
             IQueryable<TEntity> entities = _dbContext.Set<TEntity>()
@@ -69,7 +70,7 @@ namespace BaseData.Services
 
             entities = includeExpressions.Aggregate(entities, (entity, includeEntity) => entity.Include(includeEntity));
 
-            return await PagedResult(entities, ePageFilter, cancellationToken);
+            return await PagedResult(entities, ascending, itemsPerPage, pageNo, sortBy, cancellationToken);
         }
 
         public async Task Update<TEntity>(TEntity entity, CancellationToken cancellationToken) where TEntity : class
@@ -95,24 +96,13 @@ namespace BaseData.Services
             await Delete(entity, cancellationToken);
         }
 
-        private async Task<EPagedList<TEntity>> PagedResult<TEntity>(IQueryable<TEntity> entities, EPageFilter ePageFilter, CancellationToken cancellationToken) where TEntity : class
+        private async Task<EPagedList<TEntity>> PagedResult<TEntity>(IQueryable<TEntity> entities, bool ascending, int itemsPerPage, int pageNo, string sortBy, CancellationToken cancellationToken)
+            where TEntity : class
         {
-            var itemsPerPage = 20;
-            var pageNo = 1;
-
-            if (ePageFilter.ItemsPerPage > 0)
-                itemsPerPage = ePageFilter.ItemsPerPage;
-
             var resultCount = entities.Count();
-
-            if (resultCount > itemsPerPage && ePageFilter.ItemsPerPage > 0)
-                pageNo = ePageFilter.PageNo;
-
-            resultCount = entities.Count();
-
             int excludedRows = (pageNo - 1) * itemsPerPage;
 
-            entities = OrderBy(entities, ePageFilter.Ascending, ePageFilter.SortBy);
+            entities = OrderBy(entities, sortBy, ascending);
 
             EPagedList<TEntity> resultEPagedList = new EPagedList<TEntity>
             {
@@ -127,22 +117,17 @@ namespace BaseData.Services
 
         private IQueryable<TEntity> OrderBy<TEntity>(IQueryable<TEntity> entities, string sortColumn) where TEntity : class
         {
-            var propInfo = GetPropertyInfo(typeof(TEntity), sortColumn);
-            var expr = GetOrderExpression(typeof(TEntity), propInfo);
-
-            var method = typeof(Queryable).GetMethods().FirstOrDefault(m => m.Name == "OrderBy" && m.GetParameters().Length == 2);
-            var genericMethod = method.MakeGenericMethod(typeof(TEntity), propInfo.PropertyType);
-            return (IQueryable<TEntity>)genericMethod.Invoke(null, new object[] { entities, expr });
+            return OrderBy(entities, sortColumn, true);
         }
 
-        private IQueryable<TEntity> OrderBy<TEntity>(IQueryable<TEntity> entities, bool sortAscending, string sortColumn) where TEntity : class
+        private IQueryable<TEntity> OrderBy<TEntity>(IQueryable<TEntity> entities, string sortColumn, bool sortAscending) where TEntity : class
         {
-            var propInfo = GetPropertyInfo(typeof(TEntity), sortColumn);
-            var expr = GetOrderExpression(typeof(TEntity), propInfo);
+            var propertyInfo = GetPropertyInfo(typeof(TEntity), sortColumn);
+            var expression = GetOrderExpression(typeof(TEntity), propertyInfo);
 
             var method = typeof(Queryable).GetMethods().FirstOrDefault(m => m.Name == (sortAscending ? "OrderBy" : "OrderByDescending") && m.GetParameters().Length == 2);
-            var genericMethod = method.MakeGenericMethod(typeof(TEntity), propInfo.PropertyType);
-            return (IQueryable<TEntity>)genericMethod.Invoke(null, new object[] { entities, expr });
+            var genericMethod = method.MakeGenericMethod(typeof(TEntity), propertyInfo.PropertyType);
+            return (IQueryable<TEntity>)genericMethod.Invoke(null, new object[] { entities, expression });
         }
 
         private PropertyInfo GetPropertyInfo(Type objType, string name)
@@ -157,10 +142,10 @@ namespace BaseData.Services
 
         private LambdaExpression GetOrderExpression(Type objType, PropertyInfo pi)
         {
-            var paramExpr = Expression.Parameter(objType);
-            var propAccess = Expression.PropertyOrField(paramExpr, pi.Name);
-            var expr = Expression.Lambda(propAccess, paramExpr);
-            return expr;
+            var paramExpression = Expression.Parameter(objType);
+            var propertyAccess = Expression.PropertyOrField(paramExpression, pi.Name);
+            var expression = Expression.Lambda(propertyAccess, paramExpression);
+            return expression;
         }
     }
 }
