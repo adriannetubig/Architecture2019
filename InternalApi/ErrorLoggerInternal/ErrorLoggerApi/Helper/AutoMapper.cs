@@ -3,6 +3,7 @@ using BaseData.Entities;
 using BaseModel;
 using ErrorLoggerBusiness.Models;
 using ErrorLoggerData.Entities;
+using System;
 
 namespace ErrorLoggerApi.Helper
 {
@@ -15,6 +16,7 @@ namespace ErrorLoggerApi.Helper
                 mc.CreateMap<ExceptionLog, EntityExceptionLog>().ReverseMap();
                 mc.CreateMap<InnerExceptionLog, EntityInnerExceptionLog>().ReverseMap();
                 mc.CreateMap<EntityPagedList<EntityExceptionLog>, PagedList<ExceptionLog>>();
+                mc.CreateMap<Exception, ExceptionLog>();
             });
 
             IMapper mapper = mappingConfig.CreateMapper();

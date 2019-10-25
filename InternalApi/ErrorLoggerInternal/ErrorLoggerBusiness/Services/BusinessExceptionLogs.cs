@@ -21,6 +21,13 @@ namespace ErrorLoggerBusiness.Services
             _iRepoBase = iRepoBase;
         }
 
+        public async Task<RequestResult<ExceptionLog>> Create(CancellationToken cancellationToken, Exception exception, string applicationName)
+        {
+            var exceptionLog = _iMapper.Map<ExceptionLog>(exception);
+            var requestResult = await Create(cancellationToken, exceptionLog, applicationName);
+            return requestResult;
+        }
+
         public async Task<RequestResult<ExceptionLog>> Create(CancellationToken cancellationToken, ExceptionLog exceptionLog, string applicationName)
         {
             var requestResult = new RequestResult<ExceptionLog>();

@@ -5,6 +5,7 @@ using ErrorLoggerBusiness.Services;
 using ErrorLoggerData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace ErrorLoggerApi.Helper
 {
@@ -17,6 +18,16 @@ namespace ErrorLoggerApi.Helper
             services.AddScoped<IRepoBase, RepoBase>();
 
             services.AddScoped<IBusinessExceptionLogs, BusinessExceptionLogs>();
+
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder
+                    .AddConsole()
+                    .AddEventLog();
+            });
+            loggerFactory.AddFile("Logs/ErrorLogs-{Date}.txt");
+
+            services.AddSingleton<ILogger<Program>>(loggerFactory.CreateLogger<Program>());
         }
     }
 }

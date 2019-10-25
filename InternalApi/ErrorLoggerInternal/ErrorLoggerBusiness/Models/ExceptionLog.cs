@@ -1,5 +1,5 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace ErrorLoggerBusiness.Models
 {
@@ -12,7 +12,7 @@ namespace ErrorLoggerBusiness.Models
         public string Message { get; set; }
         public int HResult { get; set; }
         public DateTime CreatedDateUtc { get; set; }
-        [JsonPropertyName("InnerException")]
+        [JsonProperty("InnerException")]
         public InnerExceptionLog InnerExceptionLog { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ErrorLoggerBusiness.Interfaces;
 using ErrorLoggerBusiness.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
