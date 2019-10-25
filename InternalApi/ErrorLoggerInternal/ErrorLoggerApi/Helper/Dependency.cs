@@ -27,7 +27,7 @@ namespace ErrorLoggerApi.Helper
             });
             loggerFactory.AddFile("Logs/ErrorLogs-{Date}.txt");
 
-            services.AddSingleton<ILogger<Program>>(loggerFactory.CreateLogger<Program>());
+            services.AddSingleton(loggerFactory.CreateLogger<Program>());
         }
     }
 }

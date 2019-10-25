@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace ErrorLoggerApi.Helper
 {
@@ -14,7 +16,7 @@ namespace ErrorLoggerApi.Helper
         private readonly ILogger _logger;
         private readonly RequestDelegate _next;
 
-        public ExceptionMiddleware(ILogger<Program> logger, RequestDelegate next)
+        public ExceptionMiddleware(IConfiguration iConfiguration, ILogger<Program> logger, RequestDelegate next)
         {
             _logger = logger;
             _next = next;
@@ -37,7 +39,7 @@ namespace ErrorLoggerApi.Helper
             var requestResult = new RequestResult();
             try
             {
-                await iBusinessExceptionLogs.Create(default, exception, "ErrorLogger");
+                await iBusinessExceptionLogs.Create(default, exception, Assembly.GetExecutingAssembly().GetName().Name);
             }
             catch (Exception ex)
             {
