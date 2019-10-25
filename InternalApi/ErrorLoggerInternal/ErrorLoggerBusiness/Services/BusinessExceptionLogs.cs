@@ -34,6 +34,8 @@ namespace ErrorLoggerBusiness.Services
 
             await _iRepoBase.Create(entityExceptionLog, cancellationToken);
 
+            requestResult.Model = _iMapper.Map<ExceptionLog>(entityExceptionLog);
+
             return requestResult;
         }
 
@@ -41,7 +43,7 @@ namespace ErrorLoggerBusiness.Services
         {
             var requestResult = new RequestResult<PagedList<ExceptionLog>>();
 
-            var entityPagedList = await _iRepoBase.ReadMultiple<ExceptionLog>(a => true, ascending, itemsPerPage, pageNo, sortBy, cancellationToken, a => a.InnerExceptionLog);
+            var entityPagedList = await _iRepoBase.ReadMultiple<EntityExceptionLog>(a => true, ascending, itemsPerPage, pageNo, sortBy, cancellationToken, a => a.InnerExceptionLog);
 
             requestResult.Model = _iMapper.Map<PagedList<ExceptionLog>>(entityPagedList);
 

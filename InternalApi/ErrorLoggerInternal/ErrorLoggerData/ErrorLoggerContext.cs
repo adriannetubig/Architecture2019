@@ -17,12 +17,6 @@ namespace ErrorLoggerData
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<EntityExceptionLog>()
-                .HasOne(a => a.InnerExceptionLog);
-
-            modelBuilder.Entity<EntityInnerExceptionLog>()
-                .Ignore(a => a.ApplicationName);
         }
     }
 }

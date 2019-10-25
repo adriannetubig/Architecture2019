@@ -12,7 +12,5 @@ namespace ErrorLoggerBusiness.Models
         public string Message { get; set; }
         public int HResult { get; set; }
         public DateTime CreatedDateUtc { get; set; }
-
-        public ExceptionLog EntityExceptionLog { get; set; }
     }
 }
