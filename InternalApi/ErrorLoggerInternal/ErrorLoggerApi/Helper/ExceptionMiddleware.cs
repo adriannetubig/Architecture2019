@@ -32,7 +32,6 @@ namespace ErrorLoggerApi.Helper
             }
         }
 
-        //Custom Exception Handler
         private async Task<Task> HandleException(HttpContext context, Exception exception, IBusinessExceptionLogs iBusinessExceptionLogs)
         {
             var requestResult = new RequestResult();
@@ -54,7 +53,6 @@ namespace ErrorLoggerApi.Helper
         }
     }
 
-    // Extension method used to add the middleware to the HTTP request pipeline.
     public static class ExceptionMiddlewareExtensions
     {
         public static IApplicationBuilder UseExceptionMiddleware(this IApplicationBuilder builder)
