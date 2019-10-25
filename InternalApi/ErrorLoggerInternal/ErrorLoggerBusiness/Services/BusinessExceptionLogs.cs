@@ -36,8 +36,8 @@ namespace ErrorLoggerBusiness.Services
             entityExceptionLog.ApplicationName = applicationName;
             entityExceptionLog.CreatedDateUtc = DateTime.UtcNow;
 
-            if (entityExceptionLog.InnerExceptionLog != null)
-                entityExceptionLog.InnerExceptionLog.CreatedDateUtc = DateTime.UtcNow;
+            if (entityExceptionLog.InnerException != null)
+                entityExceptionLog.InnerException.CreatedDateUtc = DateTime.UtcNow;
 
             await _iRepoBase.Create(entityExceptionLog, cancellationToken);
 
@@ -50,7 +50,7 @@ namespace ErrorLoggerBusiness.Services
         {
             var requestResult = new RequestResult<PagedList<ExceptionLog>>();
 
-            var entityPagedList = await _iRepoBase.ReadMultiple<EntityExceptionLog>(a => true, ascending, itemsPerPage, pageNo, sortBy, cancellationToken, a => a.InnerExceptionLog);
+            var entityPagedList = await _iRepoBase.ReadMultiple<EntityExceptionLog>(a => true, ascending, itemsPerPage, pageNo, sortBy, cancellationToken, a => a.InnerException);
 
             requestResult.Model = _iMapper.Map<PagedList<ExceptionLog>>(entityPagedList);
 
