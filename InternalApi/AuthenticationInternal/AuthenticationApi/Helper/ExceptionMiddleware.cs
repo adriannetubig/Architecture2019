@@ -1,24 +1,30 @@
 ﻿using System;
-using System.Net;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
+using BaseConsumer.Interfaces;
 using BaseModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace AuthenticationApi.Helper
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class ExceptionMiddleware
     {
+        private readonly ILogger _logger;
         private readonly RequestDelegate _next;
+        private readonly IBaseApiConsumer _iBaseApiConsumer;
+        
 
-        public ExceptionMiddleware(RequestDelegate next)
+        public ExceptionMiddleware(IConfiguration iConfiguration, ILogger<Program> logger, RequestDelegate next, IBaseApiConsumer iBaseApiConsumer)
         {
+            _logger = logger;
             _next = next;
+            _iBaseApiConsumer = iBaseApiConsumer;
+            var errorLoggergUrl = iConfiguration.GetSection("ErrorLoggergUrl").Get<string>();
+            _iBaseApiConsumer.SetUrl(errorLoggergUrl);
         }
 
         public async Task Invoke(HttpContext httpContext)
@@ -29,24 +35,33 @@ namespace AuthenticationApi.Helper
             }
             catch (Exception ex)
             {
-
-                //ToDo: Add Exception Logger here
-
-                //Custom Exception Handler
-                await HandleExceptionAsync(httpContext, ex);
+                await HandleException(httpContext, ex);
             }
         }
 
-        //Custom Exception Handler
-        private Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private async Task<Task> HandleException(HttpContext context, Exception exception)
         {
+
+
             var requestResult = new RequestResult();
-            requestResult.Errors.Add("There was an Error");
+            try
+            {
+                await _iBaseApiConsumer.Put(exception, $"api/v1/ExceptionLogs/{Assembly.GetExecutingAssembly().GetName().Name}", default);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(exception, $"{DateTime.UtcNow}");
+                _logger.LogError(ex, $"{DateTime.UtcNow}");
+            }
+            finally
+            {
+                requestResult.Errors.Add("There was an Error"); //For External Api use this
+                requestResult.Exceptions.Add(exception); //For Internal Api use this
+            }
             return context.Response.WriteAsync(JsonConvert.SerializeObject(requestResult));
         }
     }
 
-    // Extension method used to add the middleware to the HTTP request pipeline.
     public static class ExceptionMiddlewareExtensions
     {
         public static IApplicationBuilder UseExceptionMiddleware(this IApplicationBuilder builder)

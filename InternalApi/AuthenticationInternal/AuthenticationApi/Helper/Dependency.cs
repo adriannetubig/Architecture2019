@@ -8,6 +8,8 @@ using BaseData.Services;
 using BaseModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using BaseConsumer.Interfaces;
+using BaseConsumer.Services;
 
 namespace AuthenticationApi.Helper
 {
@@ -18,6 +20,7 @@ namespace AuthenticationApi.Helper
             services.AddDbContext<Context>(options => options.UseSqlServer(connectionString));
             services.AddScoped<DbContext, Context>();
             services.AddScoped<IRepoBase, RepoBase>();
+            services.AddSingleton<IBaseApiConsumer, BaseApiConsumer>();
 
             services.AddScoped<IDataUsers>(a => new DataUsers(connectionString));
 
