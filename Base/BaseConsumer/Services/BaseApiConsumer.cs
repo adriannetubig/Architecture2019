@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace BaseConsumer.Services
 {
-    public class BaseApi : IBaseApi
+    public class BaseApiConsumer : IBaseApiConsumer
     {
         private readonly HttpClient _httpClient;
 
-        public BaseApi()
+        public BaseApiConsumer()
         {
             _httpClient = new HttpClient();
         }
