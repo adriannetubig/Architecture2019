@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace BaseConsumer.Interfaces
 {
-    public interface IBaseApi
+    public interface IBaseApiConsumer
     {
         void SetUrl(string url);
         Task Delete(string requestUri, CancellationToken cancellationToken);
