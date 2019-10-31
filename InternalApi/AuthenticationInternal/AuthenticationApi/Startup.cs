@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AuthenticationApi
@@ -27,6 +28,8 @@ namespace AuthenticationApi
             var jwtTokenValidation = Configuration.GetSection("JwtTokenValidation").Get<JwtTokenValidation>();
             var allowedOrigins = Configuration.GetSection("AllowedOrigins").Get<string[]>();
 
+            services.AddControllers();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -44,8 +47,6 @@ namespace AuthenticationApi
                 };
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
             services.AddCors(options =>
             {
                 options.AddPolicy("CORS", corsPolicyBuilder => corsPolicyBuilder
@@ -61,22 +62,27 @@ namespace AuthenticationApi
 
             services.AddSingleton(Helper.AutoMapper.Config());
 
-            ApiVersioning.SetVersion(ref services);
+            //ApiVersioning.SetVersion(ref services); //ToDo: fix this once supported in net core 3.0
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             app.UseExceptionMiddleware();
-            app.UseAuthentication();
+            app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseCors("CORS");
 
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
