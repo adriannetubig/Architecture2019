@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using BaseConsumer.Interfaces;
 using BaseConsumer.Services;
+using Microsoft.Extensions.Logging;
 
 namespace AuthenticationApi.Helper
 {
@@ -28,6 +29,16 @@ namespace AuthenticationApi.Helper
             services.AddScoped<IBusinessRefreshTokens, BusinessRefreshTokens>();
             services.AddScoped<IBusinessRoles, BusinessRoles>();
             services.AddScoped<IBusinessUsers, BusinessUsers>();
+
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder
+                    .AddConsole()
+                    .AddEventLog();
+            });
+            loggerFactory.AddFile("Logs/ErrorLogs-{Date}.txt");
+
+            services.AddSingleton(loggerFactory.CreateLogger<Program>());
         }
     }
 }
