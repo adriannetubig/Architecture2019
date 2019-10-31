@@ -90,10 +90,15 @@ namespace BaseData.Services
             _dbContext.Set<TEntity>().Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
+        public async Task DeleteRange<TEntity>(List<TEntity> entities, CancellationToken cancellationToken) where TEntity : class
+        {
+            _dbContext.RemoveRange(entities);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
         public async Task Delete<TEntity>(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken) where TEntity : class
         {
-            var entity = await ReadSingle(expression, cancellationToken);
-            await Delete(entity, cancellationToken);
+            var entities = await ReadMultiple(expression, cancellationToken);
+            await DeleteRange(entities, cancellationToken);
         }
 
         private async Task<EntityPagedList<TEntity>> PagedResult<TEntity>(IQueryable<TEntity> entities, bool ascending, int itemsPerPage, int pageNo, string sortBy, CancellationToken cancellationToken)
