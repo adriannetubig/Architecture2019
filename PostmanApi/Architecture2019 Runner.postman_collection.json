@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1ba80021-aea3-44c7-8306-8151ba7a5353",
+		"_postman_id": "eac7cad8-5632-48cc-9bcb-6764844c5bdb",
 		"name": "Architecture2019 Runner",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -272,7 +272,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"roleId\": \"{{OldRoleId}}\",\n\t\"username\": \"{{$timestamp}}\",\n\t\"password\": \"{{OldPassword}}\"\n}",
+											"raw": "{\n\t\"roleId\": {{OldRoleId}},\n\t\"username\": \"{{$timestamp}}\",\n\t\"password\": \"{{OldPassword}}\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -357,7 +357,12 @@
 													"",
 													"pm.test(\"Status code is 200\", function () {",
 													"    pm.response.to.have.status(200);",
-													"});"
+													"});",
+													"",
+													"pm.test(\"User should have value\", function () {",
+													"    pm.expect(jsonData.model.user).not.eql(null);",
+													"});",
+													""
 												],
 												"type": "text/javascript"
 											}
@@ -499,7 +504,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"userId\": \"{{InternalAuthenticationUserId}}\",\n\t\"roleId\": \"{{NewRoleId}}\"\n}"
+											"raw": "{\n\t\"userId\": {{InternalAuthenticationUserId}},\n\t\"roleId\": {{NewRoleId}}\n}"
 										},
 										"url": {
 											"raw": "{{UrlInternalAuthentication}}api/v1/Users",
@@ -602,7 +607,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"userId\": \"{{InternalAuthenticationUserId}}\",\n\t\"username\": \"{{CreatedUsername}}\",\n\t\"password\": \"{{OldPassword}}\",\n\t\"newPassword\": \"{{NewPassword}}\"\n}"
+											"raw": "{\n\t\"userId\": {{InternalAuthenticationUserId}},\n\t\"username\": \"{{CreatedUsername}}\",\n\t\"password\": \"{{OldPassword}}\",\n\t\"newPassword\": \"{{NewPassword}}\"\n}"
 										},
 										"url": {
 											"raw": "{{UrlInternalAuthentication}}api/v1/Users/ChangePassword",
@@ -706,7 +711,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n\t\"userId\": \"{{InternalAuthenticationUserId}}\",\n\t\"password\": \"{{OldPassword}}\"\n}"
+											"raw": "{\n\t\"userId\": {{InternalAuthenticationUserId}},\n\t\"password\": \"{{OldPassword}}\"\n}"
 										},
 										"url": {
 											"raw": "{{UrlInternalAuthentication}}api/v1/Users/UpdatePassword",
