@@ -75,6 +75,7 @@ namespace AuthenticationApi
             app.UseExceptionMiddleware();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors("CORS");
