@@ -1,0 +1,30 @@
+<a class="btn btn-primary" routerLink="/fibonaccis/create" routerLinkActive="active">Create</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">FibonacciId</th>
+      <th scope="col">Iterations</th>
+      <th scope="col">Total</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody *ngIf="requestResult">
+    <tr *ngFor="let fibonacci of requestResult.model.items">
+      <td>
+        <a class="btn btn-primary" routerLink="/fibonaccis/update/{{fibonacci.fibonacciId}}" routerLinkActive="active"> {{fibonacci.fibonacciId}} </a>
+      </td>
+      <td> {{fibonacci.iterations}} </td>
+      <td> {{fibonacci.total}} </td>
+      <td>
+        <div ngbDropdown class="d-inline-block">
+            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Actions</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem (click)="delete(fibonacci.fibonacciId)">Delete</button>
+            </div>
+          </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<ngb-pagination [collectionSize]="requestResult.model.numberOfItems" [(page)]="requestResult.model.pageNo" [boundaryLinks]="true" (pageChange)="pageChanged($event)"></ngb-pagination>
