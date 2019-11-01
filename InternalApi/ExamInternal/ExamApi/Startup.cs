@@ -4,6 +4,7 @@ using ExamApi.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,7 +28,7 @@ namespace ExamApi
             var jwtTokenValidation = Configuration.GetSection("JwtTokenValidation").Get<JwtTokenValidation>();
             var allowedOrigins = Configuration.GetSection("AllowedOrigins").Get<string[]>();
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -62,6 +63,7 @@ namespace ExamApi
             services.AddSingleton(Helper.AutoMapper.Config());
 
             ApiVersioning.SetVersion(ref services);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
