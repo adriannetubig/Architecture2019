@@ -9,15 +9,15 @@ namespace AuthenticationExternalBusiness.Services
 {
     public class BusinessApiAuthentication: IBusinessApiAuthentication
     {
-        private readonly IBaseApi _iBaseApi;
+        private readonly IBaseApiConsumer _iBaseApiConsumer;
         private readonly InternalApiCredential _internalApiCredential;
         private Authentication _authentication;
 
-        public BusinessApiAuthentication(IBaseApi iBaseApi, InternalApiCredential internalApiCredential)
+        public BusinessApiAuthentication(IBaseApiConsumer iBaseApiConsumer, InternalApiCredential internalApiCredential)
         {
-            _iBaseApi = iBaseApi;
+            _iBaseApiConsumer = iBaseApiConsumer;
             _internalApiCredential = internalApiCredential;
-            _iBaseApi.SetUrl(_internalApiCredential.Url);
+            _iBaseApiConsumer.SetUrl(_internalApiCredential.Url);
         }
 
         public async Task<string> ReadToken(CancellationToken cancellationToken)//ToDo: function to renew token
@@ -35,7 +35,7 @@ namespace AuthenticationExternalBusiness.Services
                 Username = _internalApiCredential.Username,
                 Password = _internalApiCredential.Password
             };
-            var authenticationResult = await _iBaseApi.Post<User, RequestResult<Authentication>>(user, "/api/v1/Authentications", cancellationToken);
+            var authenticationResult = await _iBaseApiConsumer.Post<User, RequestResult<Authentication>>(user, "/api/v1/Authentications", cancellationToken);
 
             if (authenticationResult.Succeeded)
                 _authentication = authenticationResult.Model;

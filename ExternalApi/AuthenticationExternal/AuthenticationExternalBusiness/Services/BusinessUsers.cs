@@ -9,25 +9,25 @@ namespace AuthenticationExternalBusiness.Services
 {
     public class BusinessUsers : IBusinessUsers
     {
-        private readonly IBaseApi _iBaseApi;
+        private readonly IBaseApiConsumer _iBaseApiConsumer;
         private readonly IBusinessApiAuthentication _iBusinessApiAuthentication;
-        public BusinessUsers(IBaseApi iBaseApi, IBusinessApiAuthentication iBusinessApiAuthentication, string url)
+        public BusinessUsers(IBaseApiConsumer iBaseApiConsumer, IBusinessApiAuthentication iBusinessApiAuthentication, string url)
         {
-            _iBaseApi = iBaseApi;
+            _iBaseApiConsumer = iBaseApiConsumer;
             _iBusinessApiAuthentication = iBusinessApiAuthentication;
-            _iBaseApi.SetUrl(url);
+            _iBaseApiConsumer.SetUrl(url);
         }
 
         public async Task<RequestResult<User>> Authenticate(User user, CancellationToken cancellationToken)
         {
             var token = await _iBusinessApiAuthentication.ReadToken(cancellationToken);
-            return await _iBaseApi.Post<User, RequestResult<User>>(user, "/api/v1/Users/Authenticate", token, cancellationToken);
+            return await _iBaseApiConsumer.Post<User, RequestResult<User>>(user, "/api/v1/Users/Authenticate", token, cancellationToken);
         }
 
         public async Task<RequestResult> ChangePassword(User user, CancellationToken cancellationToken)
         {
             var token = await _iBusinessApiAuthentication.ReadToken(cancellationToken);
-            return await _iBaseApi.Post<User, RequestResult>(user, "/api/v1/Users/ChangePassword", token, cancellationToken);
+            return await _iBaseApiConsumer.Post<User, RequestResult>(user, "/api/v1/Users/ChangePassword", token, cancellationToken);
         }
     }
 }

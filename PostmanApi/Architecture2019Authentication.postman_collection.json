@@ -446,12 +446,11 @@
 											"raw": "{\r\n   \"username\":\"{{Username}}\",\r\n   \"password\": \"{{Password}}\"\r\n} "
 										},
 										"url": {
-											"raw": "{{UrlExternal}}/api/v1/Authentications",
+											"raw": "{{UrlExternal}}api/v1/Authentications",
 											"host": [
-												"{{UrlExternal}}"
+												"{{UrlExternal}}api"
 											],
 											"path": [
-												"api",
 												"v1",
 												"Authentications"
 											]
@@ -512,12 +511,11 @@
 											}
 										},
 										"url": {
-											"raw": "{{UrlExternal}}/api/v1/Users/ChangePassword",
+											"raw": "{{UrlExternal}}api/v1/Users/ChangePassword",
 											"host": [
-												"{{UrlExternal}}"
+												"{{UrlExternal}}api"
 											],
 											"path": [
-												"api",
 												"v1",
 												"Users",
 												"ChangePassword"
