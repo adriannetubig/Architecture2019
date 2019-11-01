@@ -62,7 +62,7 @@ namespace AuthenticationApi
 
             services.AddSingleton(Helper.AutoMapper.Config());
 
-            //ApiVersioning.SetVersion(ref services); //ToDo: fix this once supported in net core 3.0
+            ApiVersioning.SetVersion(ref services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
