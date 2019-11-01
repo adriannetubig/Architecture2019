@@ -55,26 +55,29 @@ namespace ExamBusiness.Services
             return requestResult;
         }
 
-        public async Task<RequestResult<PagedList<Fibonacci>>> Read(PageFilter pageFilter, CancellationToken cancellationToken)
+        public async Task<RequestResult<PagedList<Fibonacci>>> Read(int pageNo, int itemsPerPage)
         {
             var requestResult = new RequestResult<PagedList<Fibonacci>>();
 
-            if (pageFilter.ItemsPerPage > 100)
+            var offset = 0;
+
+            if (itemsPerPage > 100)
             {
-                pageFilter.ItemsPerPage = 100;
+                itemsPerPage = 100;
                 requestResult.Errors.Add("Cannot return more than 100 records at a time");
+                offset = (pageNo - 1) * itemsPerPage;
             }
 
-            var queryResult = await _iDataFibonaccis.Read(pageFilter.Offset, pageFilter.ItemsPerPage);
+            var queryResult = await _iDataFibonaccis.Read(offset, itemsPerPage);
 
             var entityFibonaccis = queryResult.Item1;
 
             var pagedFibonaccis = new PagedList<Fibonacci>
             {
                 Items = _iMapper.Map<List<Fibonacci>>(entityFibonaccis),
-                ItemsPerPage = pageFilter.ItemsPerPage,
+                ItemsPerPage = itemsPerPage,
                 NumberOfItems = queryResult.Item2,
-                PageNo = pageFilter.PageNo
+                PageNo = pageNo
             };
 
             requestResult.Model = pagedFibonaccis;

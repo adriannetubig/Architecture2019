@@ -1,5 +1,4 @@
-﻿using BaseModel;
-using ExamBusiness.Interfaces;
+﻿using ExamBusiness.Interfaces;
 using ExamBusiness.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -37,10 +36,10 @@ namespace ExamApi.Controllers.V1
             return Ok(requestResult);
         }
 
-        [HttpPost("Search")]
-        public async Task<IActionResult> Read(PageFilter pageFilter, CancellationToken cancellationToken)
+        [HttpGet("{pageNo}/{itemsPerPage}")]
+        public async Task<IActionResult> Read(int pageNo, int itemsPerPage)
         {
-            var requestResult = await _iBusinessFibonaccis.Read(pageFilter, cancellationToken);
+            var requestResult = await _iBusinessFibonaccis.Read(pageNo, itemsPerPage);
 
             return Ok(requestResult);
         }
