@@ -10,7 +10,7 @@ namespace ExamApi.Controllers
     [EnableCors("CORS")]
     [Route("api/v{v:apiVersion}/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize] //ToDo: Enable this
     public abstract class BaseController : ControllerBase
     {
         protected virtual string Username => User.Identities.FirstOrDefault().Name;
