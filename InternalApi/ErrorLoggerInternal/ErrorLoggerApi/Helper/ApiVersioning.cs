@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuthenticationApi.Helper
+namespace ErrorLoggerApi.Helper
 {
     public static class ApiVersioning
     {
@@ -12,9 +12,7 @@ namespace AuthenticationApi.Helper
                 a.AssumeDefaultVersionWhenUnspecified = true;
                 a.DefaultApiVersion = new ApiVersion(1, 0);
 
-                a.Conventions.Controller<Controllers.V1.AuthenticationsController>().HasApiVersion(new ApiVersion(1, 0));
-                a.Conventions.Controller<Controllers.V1.RolesController>().HasApiVersion(new ApiVersion(1, 0));
-                a.Conventions.Controller<Controllers.V1.UsersController>().HasApiVersion(new ApiVersion(1, 0));
+                a.Conventions.Controller<Controllers.V1.ExceptionLogsController>().HasApiVersion(new ApiVersion(1, 0));
             });
         }
     }

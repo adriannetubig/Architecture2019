@@ -12,11 +12,11 @@ namespace AuthenticationExternalApi.Helper
         public static void SetDependency(ref IServiceCollection services, InternalApiCredential internalApiCredential, string authenticationInternalUrl,
             JwtTokenSettings jwtTokenSettings, JwtTokenValidation jwtTokenValidation)
         {
-            services.AddSingleton<IBaseApi, BaseApi>();
+            services.AddSingleton<IBaseApiConsumer, BaseApiConsumer>();
 
-            services.AddSingleton<IBusinessApiAuthentication>(a => new BusinessApiAuthentication(a.GetService<IBaseApi>(), internalApiCredential));
-            services.AddScoped<IBusinessAuthentications>(a => new BusinessAuthentications(jwtTokenSettings, jwtTokenValidation));
-            services.AddScoped<IBusinessUsers>(a => new BusinessUsers(a.GetService<IBaseApi>(), a.GetService<IBusinessApiAuthentication>(), authenticationInternalUrl));
+            services.AddSingleton<IBusinessApiAuthentication>(a => new BusinessApiAuthentication(a.GetService<IBaseApiConsumer>(), internalApiCredential));
+            services.AddSingleton<IBusinessAuthentications>(a => new BusinessAuthentications(jwtTokenSettings, jwtTokenValidation));
+            services.AddSingleton<IBusinessUsers>(a => new BusinessUsers(a.GetService<IBaseApiConsumer>(), a.GetService<IBusinessApiAuthentication>(), authenticationInternalUrl));
         }
     }
 }

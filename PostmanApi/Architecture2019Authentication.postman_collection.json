@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "d3d26d46-2c89-473a-b279-b5444b75a644",
-		"name": "Architecture2019",
+		"_postman_id": "327e9054-17a2-4e85-9391-8cfd4467c9a8",
+		"name": "Architecture2019Authentication",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -402,250 +402,6 @@
 					],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
-				},
-				{
-					"name": "Exam",
-					"item": [
-						{
-							"name": "Fibonnaci",
-							"item": [
-								{
-									"name": "V1",
-									"item": [
-										{
-											"name": "Create",
-											"event": [
-												{
-													"listen": "test",
-													"script": {
-														"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
-														"exec": [
-															""
-														],
-														"type": "text/javascript"
-													}
-												}
-											],
-											"request": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Authorization",
-														"type": "text",
-														"value": "Bearer  {{Authorization}}"
-													},
-													{
-														"key": "Content-Type",
-														"name": "Content-Type",
-														"value": "application/json",
-														"type": "text"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n\t\"iterations\": 2\n}",
-													"options": {
-														"raw": {
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{UrlInternalExam}}api/v1/Fibonaccis",
-													"host": [
-														"{{UrlInternalExam}}api"
-													],
-													"path": [
-														"v1",
-														"Fibonaccis"
-													]
-												}
-											},
-											"response": []
-										},
-										{
-											"name": "Read",
-											"event": [
-												{
-													"listen": "test",
-													"script": {
-														"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
-														"exec": [
-															""
-														],
-														"type": "text/javascript"
-													}
-												}
-											],
-											"request": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Authorization",
-														"value": "Bearer  {{Authorization}}",
-														"type": "text"
-													}
-												],
-												"url": {
-													"raw": "{{UrlInternalExam}}api/v1/Fibonaccis/1",
-													"host": [
-														"{{UrlInternalExam}}api"
-													],
-													"path": [
-														"v1",
-														"Fibonaccis",
-														"1"
-													]
-												}
-											},
-											"response": []
-										},
-										{
-											"name": "Search",
-											"event": [
-												{
-													"listen": "test",
-													"script": {
-														"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
-														"exec": [
-															""
-														],
-														"type": "text/javascript"
-													}
-												}
-											],
-											"request": {
-												"method": "POST",
-												"header": [
-													{
-														"key": "Authorization",
-														"type": "text",
-														"value": "Bearer  {{Authorization}}"
-													},
-													{
-														"key": "Content-Type",
-														"name": "Content-Type",
-														"value": "application/json",
-														"type": "text"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n\t\"pageNo\": 1,\n\t\"itemsPerPage\": 10\n}",
-													"options": {
-														"raw": {
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{UrlInternalExam}}api/v1/Fibonaccis/Search",
-													"host": [
-														"{{UrlInternalExam}}api"
-													],
-													"path": [
-														"v1",
-														"Fibonaccis",
-														"Search"
-													]
-												}
-											},
-											"response": []
-										},
-										{
-											"name": "Update",
-											"event": [
-												{
-													"listen": "test",
-													"script": {
-														"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
-														"exec": [
-															""
-														],
-														"type": "text/javascript"
-													}
-												}
-											],
-											"request": {
-												"method": "POST",
-												"header": [
-													{
-														"key": "Authorization",
-														"type": "text",
-														"value": "Bearer  {{Authorization}}"
-													},
-													{
-														"key": "Content-Type",
-														"name": "Content-Type",
-														"value": "application/json",
-														"type": "text"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n\t\"fibonacciId\": 1,\n\t\"iterations\": 1\n}"
-												},
-												"url": {
-													"raw": "{{UrlInternalExam}}api/v1/Fibonaccis",
-													"host": [
-														"{{UrlInternalExam}}api"
-													],
-													"path": [
-														"v1",
-														"Fibonaccis"
-													]
-												}
-											},
-											"response": []
-										},
-										{
-											"name": "Delete",
-											"event": [
-												{
-													"listen": "test",
-													"script": {
-														"id": "b8acb8fc-4a05-4637-9771-627aae95e023",
-														"exec": [
-															""
-														],
-														"type": "text/javascript"
-													}
-												}
-											],
-											"request": {
-												"method": "DELETE",
-												"header": [
-													{
-														"key": "Authorization",
-														"value": "Bearer  {{Authorization}}",
-														"type": "text"
-													}
-												],
-												"url": {
-													"raw": "{{UrlInternalExam}}api/v1/Fibonaccis/1",
-													"host": [
-														"{{UrlInternalExam}}api"
-													],
-													"path": [
-														"v1",
-														"Fibonaccis",
-														"1"
-													]
-												}
-											},
-											"response": []
-										}
-									],
-									"protocolProfileBehavior": {},
-									"_postman_isSubFolder": true
-								}
-							],
-							"protocolProfileBehavior": {},
-							"_postman_isSubFolder": true
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -690,12 +446,11 @@
 											"raw": "{\r\n   \"username\":\"{{Username}}\",\r\n   \"password\": \"{{Password}}\"\r\n} "
 										},
 										"url": {
-											"raw": "{{UrlExternal}}/api/v1/Authentications",
+											"raw": "{{UrlExternal}}api/v1/Authentications",
 											"host": [
-												"{{UrlExternal}}"
+												"{{UrlExternal}}api"
 											],
 											"path": [
-												"api",
 												"v1",
 												"Authentications"
 											]
@@ -756,12 +511,11 @@
 											}
 										},
 										"url": {
-											"raw": "{{UrlExternal}}/api/v1/Users/ChangePassword",
+											"raw": "{{UrlExternal}}api/v1/Users/ChangePassword",
 											"host": [
-												"{{UrlExternal}}"
+												"{{UrlExternal}}api"
 											],
 											"path": [
-												"api",
 												"v1",
 												"Users",
 												"ChangePassword"
