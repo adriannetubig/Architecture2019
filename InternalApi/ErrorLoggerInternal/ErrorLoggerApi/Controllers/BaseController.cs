@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ErrorLoggerApi.Controllers
 {
     [EnableCors("CORS")]
-    //[Route("api/v{v:apiVersion}/[controller]")]//ToDo: Use this if apiversioning is supported    
+    [Route("api/v{v:apiVersion}/[controller]")]
     public abstract class BaseController : BaseApiController
     {
     }

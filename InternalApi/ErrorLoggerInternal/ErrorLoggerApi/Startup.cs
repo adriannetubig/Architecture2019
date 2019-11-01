@@ -31,7 +31,9 @@ namespace ErrorLoggerApi
                     .AllowCredentials());
             });
             Dependency.SetDependency(ref services, connectionString);
-            services.AddSingleton(Helper.AutoMapper.Config());           
+            services.AddSingleton(Helper.AutoMapper.Config());
+
+            ApiVersioning.SetVersion(ref services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

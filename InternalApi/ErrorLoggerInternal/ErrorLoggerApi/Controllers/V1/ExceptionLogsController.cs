@@ -1,11 +1,10 @@
 ﻿using ErrorLoggerBusiness.Interfaces;
 using ErrorLoggerBusiness.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ErrorLoggerApi.Controllers
+namespace ErrorLoggerApi.Controllers.V1
 {
     public class ExceptionLogsController : BaseControllerV1
     {
