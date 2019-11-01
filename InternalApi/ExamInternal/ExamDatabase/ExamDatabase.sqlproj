@@ -62,6 +62,7 @@
   <ItemGroup>
     <Build Include="Tables\Fibonacci.sql" />
     <Build Include="StoredProcedure\GetFibonaccisPaged.sql" />
+    <Build Include="Tables\Palindrome.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment.sql" />
