@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ExamApi.Helper
 {
@@ -16,9 +12,7 @@ namespace ExamApi.Helper
                 a.AssumeDefaultVersionWhenUnspecified = true;
                 a.DefaultApiVersion = new ApiVersion(1, 0);
 
-                //a.Conventions.Controller<Controllers.V1.AuthenticationsController>().HasApiVersion(new ApiVersion(1, 0));
-                //a.Conventions.Controller<Controllers.V1.FibonaccisController>().HasApiVersion(new ApiVersion(1, 0));
-                //a.Conventions.Controller<Controllers.V1.UsersController>().HasApiVersion(new ApiVersion(1, 0));
+                a.Conventions.Controller<Controllers.V1.FibonaccisController>().HasApiVersion(new ApiVersion(1, 0));
             });
         }
     }
